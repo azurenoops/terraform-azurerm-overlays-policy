@@ -34,8 +34,6 @@ Session.vim
 # temporary
 .netrwhist
 *~
-# auto-generated tag files
-tags
 
 # IDE configs
 .idea

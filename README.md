@@ -1,57 +1,212 @@
-# Microsoft Verified Terraform Module
+<!-- markdownlint-configure-file { "MD004": { "style": "consistent" } } -->
+<!-- markdownlint-disable MD033 -->
+<p align="center">  
+  <h1 align="left">Azure NoOps Policy as Code Modules</h1>
+  <p align="center">
+    <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="MIT License"></a>
+    <a href="https://registry.terraform.io/modules/azurenoops/overlays-policy/azurerm/"><img src="https://img.shields.io/badge/terraform-registry-blue.svg" alt="Azure NoOps TF Registry"></a></br>
+  </p>
+</p>
+<!-- markdownlint-enable MD033 -->
 
-The Verified Terraform module is a template repository to help developers create their own Terraform Module.
+This Overlay terraform module can create a Azure Policy to be used in a [SCCA compliant Mission Enclave](https://registry.terraform.io/modules/azurenoops/overlays-hubspoke/azurerm/latest).
 
-As we've used Microsoft 1ES Runners Pool as our acceptance test runner, **only Microsoft members could use this template for now**.
+## SCCA Compliance
 
-Enjoy it by following steps:
+This module can be SCCA compliant and can be used in a SCCA compliant Mission Enclave. Enable private endpoints and SCCA compliant network rules to make it SCCA compliant.
 
-1. Use [this template](https://github.com/Azure/terraform-verified-module) to create your repository.
-2. Read [Onboard 1ES hosted Github Runners Pool through Azure Portal](https://eng.ms/docs/cloud-ai-platform/devdiv/one-engineering-system-1es/1es-docs/1es-github-runners/createpoolportal), install [1ES Resource Management](https://github.com/apps/1es-resource-management) on your repo.
-3. Add a Github [Environment](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment) named **acctests** in your repo, setup [**Required Reviewers**](https://docs.github.com/en/actions/deployment/targeting-different-environments/using-environments-for-deployment#required-reviewers).
-4. Update [`acc-test.yaml`](.github/workflows/acc-test.yaml), modify `runs-on: [self-hosted, 1ES.Pool=<YOUR_REPO_NAME>]` with your 1es runners' pool name (basically it's your repo's name).
-5. Write Terraform code in a new branch.
-6. Run `docker run --rm -v ${pwd}:/src -w /src mcr.microsoft.com/azterraform:latest make pre-commit` to format the code.
-7. Run `docker run --rm -v $(pwd):/src -w /src mcr.microsoft.com/azterraform:latest make pr-check` to run the check in local.
-8. Create a pull request for the main branch.
-    * CI pr-check will be executed automatically.
-    * Once pr-check was passed, with manually approval, the e2e test and version upgrade test would be executed.
-9. Merge pull request.
-10. Enjoy it!
+For more information, please read the [SCCA documentation]("https://www.cisa.gov/secure-cloud-computing-architecture").
 
-<!-- BEGIN_TF_DOCS -->
-## Requirements
+## Contributing
 
-| Name                                                                      | Version |
-|---------------------------------------------------------------------------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1  |
-| <a name="requirement_null"></a> [null](#requirement\_null)                | >= 3.1  |
+If you want to contribute to this repository, feel free to to contribute to our Terraform module.
 
-## Providers
+More details are available in the [CONTRIBUTING.md](./CONTRIBUTING.md#pull-request-process) file.
 
-| Name                                                 | Version |
-|------------------------------------------------------|---------|
-| <a name="provider_null"></a> [null](#provider\_null) | >= 3.1  |
+## Usage
 
-## Modules
+### [Policy Definitions Module](modules/policyDefinition)
 
-No modules.
+This module creates a policy definition from a policy defination JSON file. The JSON file can be a custom policy definition or a built-in policy definition. The policy definition can be stored locally or remotely. The module can also be used to create a policy definition from a JSON file that is stored in a private GitHub repository.
 
-## Resources
+```hcl
+module allowed_regions {
+  source              = "azurenoops/overlays-policy/azurerm//modules/policyDefinition"
+  version             = ""
+  policy_def_name     = "allowed_regions"
+  display_name        = "Allow resources only in allowed regions"
+  policy_category     = "Custom"
+  file_path           = "<file path to json>/allowed_regions.json"
+  management_group_id = local.management_group_id
+}
+```
 
-| Name                                                                                                       | Type     |
-|------------------------------------------------------------------------------------------------------------|----------|
-| [null_resource.nop](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
+### [Policy Definitions Module with Bult-in Polices](modules/policyDefinition)
 
-## Inputs
+This module can use values from the [Bult-in Polices library](customPolicies) variables `var.policy_def_name` and `var.policy_category` to match the corresponding custom policy definition `json` file. Other template files and data sources can also be read in at runtime; for examples of acceptable inputs, check the [module readme](modules/policyDefinition).
 
-| Name                                                            | Description      | Type     | Default | Required |
-|-----------------------------------------------------------------|------------------|----------|---------|:--------:|
-| <a name="input_echo_text"></a> [echo\_text](#input\_echo\_text) | The text to echo | `string` | n/a     |   yes    |
+```hcl
+module allowed_regions {
+  source              = "azurenoops/overlays-policy/azurerm//modules/policyDefinition"
+  version             = ""
+  policy_def_name     = "allowed_regions"
+  display_name        = "Allow resources only in allowed regions"
+  policy_category     = "General"
+  management_group_id = local.management_group_id
+}
+```
 
-## Outputs
+> 📘 [Microsoft Docs: Azure Policy definition structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/definition-structure)
 
-| Name                                                              | Description      |
-|-------------------------------------------------------------------|------------------|
-| <a name="output_echo_text"></a> [echo\_text](#output\_echo\_text) | The text to echo |
-<!-- END_TF_DOCS -->
+### Built-in Policy Definitions
+
+The following table lists the built-in policy definitions that are available in the [Built-in Polices library](customPolicies) and can be used with the [Policy Definitions Module](modules/policyDefinition).
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| allowed_locations | General | This policy ensures that resources are deployed in allowed locations. |
+| allowed_resource_types | General | This policy ensures that only allowed resource types are deployed. |
+| allowed_tags | General | This policy ensures that resources are tagged with allowed tags. |
+| audit_key_vault | General | This policy audits Key Vault resources. |
+| audit_sql_servers | General | This policy audits SQL Server resources. |
+| audit_storage_accounts | General | This policy audits Storage Account resources. |
+| audit_virtual_machines | General | This policy audits Virtual Machine resources. |
+| deploy_linux_log_analytics_vm_agent | Compute | This policy deploys linux log analytics vm agent on deployed VM |
+| deploy_linux_vm_agent | Compute | This policy deploys linux vm agent on deployed VM |
+| deploy_windows_log_analytics_vm_agent | Compute | This policy deploys windows log analytics vm agent on deployed VM |
+| deploy_windows_vm_agent | Compute | This policy deploys windows vm agent on deployed VM|
+| deny_nic_public_ip | Network | This policy denies public IP addresses on network interfaces. |
+| deny_unapproved_udr_hop_type | Network | This policy denies unapproved UDR hop types. |
+require_nsg_on_vnet | Network | This policy requires NSG on VNET |
+restrict_vnet_peering | Network | This policy restricts VNET peering |
+audit_log_analytics_workspace_retention | Monitoring | This policy audits Log Analytics Workspace retention. |
+audit_subscription_diagnostic_setting_should_exist | Monitoring | This policy audits if a diagnostic setting exists for a subscription. |
+deploy_application_gateway_diagnostic_settings | Monitoring | This policy deploys diagnostic settings for Application Gateway. |
+deploy_eventhub_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Event Hub. |
+deploy_key_vault_diagnostic_settings | Monitoring | This policy deploys diagnostic settings for Key Vault. |
+deploy_loadbalancer_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Load Balancer. |
+deploy_network_interface_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Network Interface. |
+deploy_network_security_group_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Network Security Group. |
+deploy_public_ip_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Public IP. |
+deploy_storage_account_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Storage Account. |
+deploy_subscription_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for a subscription. |
+deploy_virtual_machine_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Machine. |
+deploy_virtual_network_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Network. |
+deploy_virtual_network_gateway_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Network Gateway. |
+auto_enroll_subscriptions | Security Center | This policy auto-enrolls subscriptions to Security Center. |
+audit_security_center_auto_provisioning | Security Center | This policy audits if Security Center auto-provisioning is enabled. |
+audit_security_center_contact | Security Center | This policy audits if Security Center contact is configured. |
+audit_security_center_pricing | Security Center | This policy audits if Security Center pricing tier is set to standard. |
+auto_provision_log_analytics_agent_custom_workspace | Security Center | This policy auto-provisions the Log Analytics agent to a custom workspace. |
+auto_set_contact_details | Security Center | This policy auto-sets contact details for Security Center. |
+enable_vulnerability_vm_assessments | Security Center | This policy enables vulnerability assessments for virtual machines. |
+export_asc_alerts_and_recommendations_to_eventhub | Security Center | This policy exports ASC alerts and recommendations to an event hub. |
+export_asc_alerts_and_recommendations_to_log_analytics | Security Center | This policy exports ASC alerts and recommendations to a Log Analytics workspace. |
+storage_enforce_https | Storage | This policy enforces HTTPS for storage accounts. |
+storage_enforce_minimum_tls1_2 | Storage | This policy enforces minimum TLS 1.2 for storage accounts. |
+storage_enforce_network_rules | Storage | This policy enforces network rules for storage accounts. |
+storage_enforce_public_access | Storage | This policy enforces public access for storage accounts. |
+add_replace_resource_group_tag_key_modify | Tags | This policy adds or replaces a tag key on a resource group and modifies the value. |
+inherit_resource_group_tags_append | Tags | This policy inherits tags from a resource group and appends them to a resource. |
+inherit_resource_group_tags_modify | Tags | This policy inherits tags from a resource group and modifies them on a resource. |
+require_resource_group_tags | Tags | This policy requires tags on a resource group. |
+
+### [Policy Initiative (Set Definitions) Module](modules/initiative)
+
+Dynamically create a policy set based on multiple custom or built-in policy definition references to simplify assignments.
+
+```hcl
+module platform_baseline_initiative {
+  source                  = "azurenoops/overlays-policy/azurerm//modules/policyInitiative"
+  initiative_name         = "platform_baseline_initiative"
+  initiative_display_name = "[Platform]: Baseline Policy Set"
+  initiative_description  = "Collection of policies representing the baseline platform requirements"
+  initiative_category     = "General"
+  management_group_id     = local.management_group_id
+  member_definitions = [
+    module.allowed_resources.definition,
+    module.allowed_regions.definition
+  ]
+}
+```
+
+> 📘 [Microsoft Docs: Azure Policy initiative definition structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/initiative-definition-structure)
+
+### [Policy Definition Assignment Module](modules/def_assignment)
+
+Assign a policy definition to a management group, subscription, resouce group or resource. The assignment can be set to `DeployIfNotExists` or `Deny`. The assignment can also be set to `DeployIfNotExists` and remediate the non-compliant resources.
+
+```hcl
+module org_mg_whitelist_regions {
+  source            = "azurenoops/overlays-policy/azurerm//modules/policyDefAssignment/managmentGroup"
+  definition        = module.allowed_regions.definition
+  assignment_scope  = local.management_group_id
+  assignment_effect = "Deny"
+  assignment_parameters = {
+    listOfRegionsAllowed = [
+      "UK South",
+      "UK West",
+      "Global"
+    ]
+  }
+}
+```
+
+> 📘 [Microsoft Docs: Azure Policy assignment structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/assignment-structure)
+
+### [Policy Initiative Assignment Module](modules/set_assignment)
+
+Assign a policy set to a management group.
+
+```hcl
+module org_mg_platform_diagnostics_initiative {
+  source                  = "azurenoops/overlays-policy/azurerm//modules/policySetAssignment"
+  initiative              = module.platform_diagnostics_initiative.initiative
+  assignment_scope        = data.azurerm_management_group.org.id
+  assignment_effect       = "DeployIfNotExists"
+  skip_remediation        = false
+  skip_role_assignment    = false
+  remediation_scope       = data.azurerm_subscription.current.id
+  resource_discovery_mode = "ReEvaluateCompliance"
+  assignment_parameters = {
+    workspaceId                 = data.azurerm_log_analytics_workspace.workspace.id
+    storageAccountId            = data.azurerm_storage_account.sa.id
+    eventHubName                = data.azurerm_eventhub_namespace.ehn.name
+    eventHubAuthorizationRuleId = data.azurerm_eventhub_namespace_authorization_rule.ehnar.id
+    metricsEnabled              = "True"
+    logsEnabled                 = "True"
+  }
+  assignment_not_scopes = [
+    data.azurerm_management_group.team_dev.id
+  ]
+  non_compliance_messages = {
+    null                                        = "The Default non-compliance message for all member definitions"
+    "DeployApplicationGatewayDiagnosticSetting" = "The non-compliance message for the deploy_application_gateway_diagnostic_setting definition"
+  }
+}
+```
+
+### [Policy Exemption Module](modules/exemption)
+
+Use the exemption module in favour of `not_scopes` to create an auditable time-sensitive Policy exemption
+
+```hcl
+module exemption_team_dev_mg_deny_nic_public_ip {
+  source               = "azurenoops/overlays-policy/azurerm//modules/policyExemption"
+  name                 = "Deny NIC Public IP Exemption"
+  display_name         = "Exempted while testing"
+  description          = "Allows NIC Public IPs for testing"
+  scope                = data.azurerm_management_group.team_dev.id
+  policy_assignment_id = module.team_dev_mg_deny_nic_public_ip.id
+  exemption_category   = "Waiver"
+  expires_on           = "2023-05-25" # optional
+  # optional
+  metadata = {
+    requested_by  = "Team Development"
+    approved_by   = "Jim Developer"
+    approved_date = "2021-11-30"
+  }
+}
+```
+
+> 📘 [Microsoft Docs: Azure Policy exemption structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure)
