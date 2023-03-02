@@ -1,7 +1,7 @@
 <!-- markdownlint-configure-file { "MD004": { "style": "consistent" } } -->
 <!-- markdownlint-disable MD033 -->
 <p align="center">  
-  <h1 align="left">Azure NoOps Policy as Code Modules</h1>
+  <h1 align="left">Azure NoOps Accelerator Policy as Code Modules</h1>
   <p align="center">
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="MIT License"></a>
     <a href="https://registry.terraform.io/modules/azurenoops/overlays-policy/azurerm/"><img src="https://img.shields.io/badge/terraform-registry-blue.svg" alt="Azure NoOps TF Registry"></a></br>
@@ -9,7 +9,7 @@
 </p>
 <!-- markdownlint-enable MD033 -->
 
-This Overlay terraform module can create a Azure Policy to be used in a [SCCA compliant Mission Enclave](https://registry.terraform.io/modules/azurenoops/overlays-hubspoke/azurerm/latest).
+This Overlay terraform module simplifies the creation of custom and built-in Azure Policies to be used in a [SCCA compliant Mission Enclave](https://registry.terraform.io/modules/azurenoops/overlays-hubspoke/azurerm/latest).
 
 ## SCCA Compliance
 
@@ -210,3 +210,35 @@ module exemption_team_dev_mg_deny_nic_public_ip {
 ```
 
 > 📘 [Microsoft Docs: Azure Policy exemption structure](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/exemption-structure)
+
+## Building out Continuous Governance
+
+### Assignment Effects
+
+Azure Policy supports the following types of effect:
+
+![Types Policy Effects from least to most restrictive](img/effects.svg)
+
+> **Note:** If you're managing tags, it's recommended to use `Modify` instead of `Append` as Modify provides additional operation types and the ability to remediate existing resources. However, Append is recommended if you aren't able to create a managed identity or Modify doesn't yet support the alias for the resource property.
+> 📘 [Microsoft Docs: Understand how effects work](https://learn.microsoft.com/en-us/azure/governance/policy/concepts/effects)
+
+### Role Assignments
+
+Role assignments and remediation tasks will be automatically created if the Policy Definition contains a list of [Role Definitions](policies/Tags/inherit_resource_group_tags_modify.json#L46). You can override these with explicit ones, [as seen here](examples/assignments_org.tf#L40), or specify `skip_role_assignment=true` to omit creation, this is also skipped when using User Managed Identities. By default role assignment scopes will match the policy assignment but can be changed by setting `role_assignment_scope`.
+
+### Remediation Tasks
+
+Unless you specify `skip_remediation=true`, the `*_assignment` modules will automatically create [remediation tasks](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/remediate-resources) for policies containing effects of `DeployIfNotExists` and `Modify`. The task name is suffixed with a `timestamp()` to ensure a new one gets created on each `terraform apply`.
+
+### On-demand evaluation scan
+
+To trigger an on-demand [compliance scan](https://learn.microsoft.com/en-us/azure/governance/policy/how-to/get-compliance-data) with terraform, set `resource_discovery_mode=ReEvaluateCompliance` on `*_assignment` modules, defaults to `ExistingNonCompliant`.
+
+> **Note:** `ReEvaluateCompliance` only applies to remediation at Subscription scope and below and will take longer depending on the size of your environment.
+
+### Definition and Assignment Scopes
+
+- Should be Defined as **high up** in the hierarchy as possible.
+- Should be Assigned as **low down** in the hierarchy as possible.
+- Multiple scopes can be exempt from policy inheritance by specifying `assignment_not_scopes` or using the [exemption module](modules/exemption).
+- Policy **overrides RBAC** so even resource owners and contributors fall under compliance enforcements assigned at a higher scope (unless the policy is assigned at the ownership scope).
