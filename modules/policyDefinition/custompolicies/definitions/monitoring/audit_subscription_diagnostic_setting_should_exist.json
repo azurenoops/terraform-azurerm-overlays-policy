@@ -3,7 +3,8 @@
     "name": "audit_subscription_diagnostic_setting_should_exist",
     "properties": {
         "displayName": "Deploy Diagnostic Settings for Subscriptions to a Log Analytics workspace",
-          "metadata": {
+        "description": "Deploy Diagnostic Settings for Subscriptions to a Log Analytics workspace",
+        "metadata": {
             "version": "1.0.0",
             "category": "Monitoring",
             "source": "https://github.com/Azure/NoOpsAccelerator/",

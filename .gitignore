@@ -58,9 +58,6 @@ README-generated.md
 .tflint.hcl
 .tflint_example.hcl
 
-tfmod-scaffold/
-scripts
-
 test/go.sum
 
 TestRecord/

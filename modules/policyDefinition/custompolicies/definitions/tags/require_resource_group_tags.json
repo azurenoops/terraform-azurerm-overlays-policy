@@ -1,0 +1,56 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "require_resource_group_tags",
+    "properties": {
+        "displayName": "Require Resource Group Tags",
+        "description": "This policy ensures that all resource groups have a tag with the specified name.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Tags",
+            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "cloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
+        },
+        "parameters": {
+            "tagName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Tag Name",
+                    "description": "Name of the tag, such as 'environment'"
+                }
+            },
+            "effect": {
+                "type": "String",
+                "defaultValue": "Audit",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+                    },
+                    {
+                        "field": "[concat('tags[', parameters('tagName'), ']')]",
+                        "exists": "false"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

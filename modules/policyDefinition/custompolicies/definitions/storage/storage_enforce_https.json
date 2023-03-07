@@ -1,0 +1,65 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "storage_enforce_https",
+    "properties": {
+        "displayName": "Storage Accounts should enforce HTTPS traffic only",
+        "description": "Enforces HTTPS traffic only for Storage Accounts. For storage accounts created before version 2019-04-01, this policy will not take effect.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage",
+            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "cloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "allOf": [
+                                    {
+                                        "value": "[requestContext().apiVersion]",
+                                        "less": "2019-04-01"
+                                    },
+                                    {
+                                        "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+                                        "exists": "false"
+                                    }
+                                ]
+                            },
+                            {
+                                "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
+                                "equals": "false"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

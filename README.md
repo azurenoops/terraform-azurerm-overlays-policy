@@ -41,9 +41,9 @@ module allowed_regions {
 }
 ```
 
-### [Policy Definitions Module with Bult-in Polices](modules/policyDefinition)
+### [Policy Definitions Module with Built-in Polices](modules/policyDefinition)
 
-This module can use values from the [Bult-in Polices library](customPolicies) variables `var.policy_def_name` and `var.policy_category` to match the corresponding custom policy definition `json` file. Other template files and data sources can also be read in at runtime; for examples of acceptable inputs, check the [module readme](modules/policyDefinition).
+This module can use values from the [Built-in Polices library](customPolicies) variables `var.policy_def_name` and `var.policy_category` to match the corresponding custom policy definition `json` file. Other template files and data sources can also be read in at runtime; for examples of acceptable inputs, check the [module readme](modules/policyDefinition).
 
 ```hcl
 module allowed_regions {
@@ -62,27 +62,85 @@ module allowed_regions {
 
 The following table lists the built-in policy definitions that are available in the [Built-in Polices library](customPolicies) and can be used with the [Policy Definitions Module](modules/policyDefinition).
 
+#### App Service
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| append_appservice_httpsonly | App Service | This policy appends the HTTPSONLY flag to the app service configuration. |
+| append_appservice_latesttls | App Service | This policy appends the LATESTTLS flag to the app service configuration. |
+| deny_appserviceapiapp_http | App Service | This policy denies HTTP on API App. |
+| deny_appservicefunctionapp_http | App Service | This policy denies HTTP on Function App. |
+| deny_appservicewebapp_http | App Service | This policy denies HTTP on Web App. |
+
+#### Automation
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| deny_aa_child_resources | Automation | This policy denies Automation Account child resources. |
+
+#### Cache
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| append_redis_disablenonsslport  | Cache | This policy appends the DISABLENONSSLPORT flag to the Redis configuration. |
+| append_redis_sslenforcement | Cache | This policy appends the SSLENFORCEMENT flag to the Redis configuration. |
+| deny_redis_http | Cache | This policy denies HTTP on Redis. |
+
+#### Compute
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| deploy_linux_log_analytics_vm_agent | Compute | This policy deploys linux log analytics vm agent on deployed VM |
+| deploy_linux_vm_agent | Compute | This policy deploys linux vm agent on deployed VM |
+<!-- | deploy_windows_log_analytics_vm_agent | Compute | This policy deploys windows log analytics vm agent on deployed VM |
+| deploy_windows_vm_agent | Compute | This policy deploys windows vm agent on deployed VM| -->
+
+#### Databricks
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| deny_databricks_nopublicip | Databricks | This policy denies public IP addresses on Databricks. |
+| deny_databricks_sku | Databricks | This policy denies Databricks with certain SKU. |
+| deny_databricks_virtualnetwork | Databricks | This policy denies Databricks with certain virtual network. |
+
+#### General
+
 | Policy Definition Name | Policy Category | Description |
 | ---------------------- | --------------- | ----------- |
 | allowed_locations | General | This policy ensures that resources are deployed in allowed locations. |
 | allowed_resource_types | General | This policy ensures that only allowed resource types are deployed. |
 | allowed_tags | General | This policy ensures that resources are tagged with allowed tags. |
-| audit_key_vault | General | This policy audits Key Vault resources. |
-| audit_sql_servers | General | This policy audits SQL Server resources. |
-| audit_storage_accounts | General | This policy audits Storage Account resources. |
-| audit_virtual_machines | General | This policy audits Virtual Machine resources. |
-| deploy_linux_log_analytics_vm_agent | Compute | This policy deploys linux log analytics vm agent on deployed VM |
-| deploy_linux_vm_agent | Compute | This policy deploys linux vm agent on deployed VM |
-| deploy_windows_log_analytics_vm_agent | Compute | This policy deploys windows log analytics vm agent on deployed VM |
-| deploy_windows_vm_agent | Compute | This policy deploys windows vm agent on deployed VM|
-| deny_nic_public_ip | Network | This policy denies public IP addresses on network interfaces. |
-| deny_unapproved_udr_hop_type | Network | This policy denies unapproved UDR hop types. |
-require_nsg_on_vnet | Network | This policy requires NSG on VNET |
-restrict_vnet_peering | Network | This policy restricts VNET peering |
+| deploy_budget | General | This policy deploys a budget. |
+
+#### Key Vault
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| append_kv_softdelete | Key Vault | This policy appends the SOFTDELETE flag to the key vault configuration. |
+| audit_key_vault_location | Key Vault | This policy audits key vault location. |
+
+#### Machine Learning
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| audit_machinelearning_privateendpointid | Machine Learning | This policy audits machine learning private endpoint id. |
+| deny_machinelearning_aks | Machine Learning | This policy denies machine learning with AKS. |
+| deny_machinelearning_compute_subnetid | Machine Learning | This policy denies machine learning with compute subnet id. |
+| deny_machinelearning_compute_vmsize | Machine Learning | This policy denies machine learning with compute vm size. |
+| deny_machinelearning_computecluster_remoteloginportpublicaccess | Machine Learning | This policy denies machine learning with compute cluster remote login port public access. |
+| deny_machinelearning_computecluster_scale | Machine Learning | This policy denies machine learning with compute cluster scale. |
+
+#### Monitoring
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
 audit_log_analytics_workspace_retention | Monitoring | This policy audits Log Analytics Workspace retention. |
 audit_subscription_diagnostic_setting_should_exist | Monitoring | This policy audits if a diagnostic setting exists for a subscription. |
+deploy_api_mgmt_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for API Management. |
 deploy_application_gateway_diagnostic_settings | Monitoring | This policy deploys diagnostic settings for Application Gateway. |
+deploy_bastion_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Bastion. |
 deploy_eventhub_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Event Hub. |
+deploy_firewall_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Firewall. |
 deploy_key_vault_diagnostic_settings | Monitoring | This policy deploys diagnostic settings for Key Vault. |
 deploy_loadbalancer_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Load Balancer. |
 deploy_network_interface_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Network Interface. |
@@ -91,21 +149,57 @@ deploy_public_ip_diagnostic_setting | Monitoring | This policy deploys diagnosti
 deploy_storage_account_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Storage Account. |
 deploy_subscription_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for a subscription. |
 deploy_virtual_machine_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Machine. |
-deploy_virtual_network_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Network. |
+deploy_vnet_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Network. |
 deploy_virtual_network_gateway_diagnostic_setting | Monitoring | This policy deploys diagnostic settings for Virtual Network Gateway. |
+
+#### Network
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| deny_appgw_without_waf | Network | This policy denies Application Gateway without WAF. |
+| deny_nic_public_ip | Network | This policy denies public IP addresses on network interfaces. |
+| deny_private_dns_zones | Network | This policy denies private DNS zones. |
+| deny_publicip | Network | This policy denies public IP addresses. |
+| deny_rdp_from_internet  | Network | This policy denies RDP from the internet. |
+| deny_subnet_without_nsg  | Network | This policy denies subnets without network security groups. |
+| deny_unapproved_udr_hop_type | Network | This policy denies unapproved UDR hop types. |
+| deploy_ddosprotection | Network | This policy deploys DDoS protection. |
+| deploy_firewallpolicy | Network | This policy deploys firewall policy. |
+| require_nsg_on_vnet | Network | This policy requires NSG on VNET |
+| restrict_vnet_peering | Network | This policy restricts VNET peering |
+
+#### Security Center
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
 auto_enroll_subscriptions | Security Center | This policy auto-enrolls subscriptions to Security Center. |
-audit_security_center_auto_provisioning | Security Center | This policy audits if Security Center auto-provisioning is enabled. |
-audit_security_center_contact | Security Center | This policy audits if Security Center contact is configured. |
-audit_security_center_pricing | Security Center | This policy audits if Security Center pricing tier is set to standard. |
-auto_provision_log_analytics_agent_custom_workspace | Security Center | This policy auto-provisions the Log Analytics agent to a custom workspace. |
-auto_set_contact_details | Security Center | This policy auto-sets contact details for Security Center. |
-enable_vulnerability_vm_assessments | Security Center | This policy enables vulnerability assessments for virtual machines. |
-export_asc_alerts_and_recommendations_to_eventhub | Security Center | This policy exports ASC alerts and recommendations to an event hub. |
-export_asc_alerts_and_recommendations_to_log_analytics | Security Center | This policy exports ASC alerts and recommendations to a Log Analytics workspace. |
+| auto_provision_log_analytics_agent_custom_workspace | Security Center | This policy auto-provisions the Log Analytics agent to a custom workspace. |
+| auto_set_contact_details | Security Center | This policy auto-sets contact details for Security Center. |
+| enable_vulnerability_vm_assessments | Security Center | This policy enables vulnerability assessments for virtual machines. |
+| export_asc_alerts_and_recommendations_to_eventhub | Security Center | This policy exports ASC alerts and recommendations to an event hub. |
+| export_asc_alerts_and_recommendations_to_log_analytics | Security Center | This policy exports ASC alerts and recommendations to a Log Analytics workspace. |
+
+#### SQL
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
+| deny_publicendpoint_mariadb | SQL | This policy denies public endpoint for MariaDB. |
+| deny_sql_mintls | SQL | This policy denies SQL minimum TLS version. |
+| deploy_sql_auditingsettings | SQL | This policy deploys SQL auditing settings. |
+
+#### Storage
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
 storage_enforce_https | Storage | This policy enforces HTTPS for storage accounts. |
 storage_enforce_minimum_tls1_2 | Storage | This policy enforces minimum TLS 1.2 for storage accounts. |
 storage_enforce_network_rules | Storage | This policy enforces network rules for storage accounts. |
 storage_enforce_public_access | Storage | This policy enforces public access for storage accounts. |
+
+#### Tags
+
+| Policy Definition Name | Policy Category | Description |
+| ---------------------- | --------------- | ----------- |
 add_replace_resource_group_tag_key_modify | Tags | This policy adds or replaces a tag key on a resource group and modifies the value. |
 inherit_resource_group_tags_append | Tags | This policy inherits tags from a resource group and appends them to a resource. |
 inherit_resource_group_tags_modify | Tags | This policy inherits tags from a resource group and modifies them on a resource. |

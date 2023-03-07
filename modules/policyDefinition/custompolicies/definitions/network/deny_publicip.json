@@ -1,0 +1,42 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "deny_publicip",
+  "properties": {
+    "mode": "Indexed",
+    "displayName": "[Deprecated] Deny the creation of public IP",
+    "description": "[Deprecated] This policy denies creation of Public IPs under the assigned scope.",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network",
+      "source": "https://github.com/Azure/NoOpsAccelerator/",
+      "cloudEnvironments": [
+        "AzureCloud",
+        "AzureUSGovernment"
+      ]
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "field": "type",
+        "equals": "Microsoft.Network/publicIPAddresses"
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

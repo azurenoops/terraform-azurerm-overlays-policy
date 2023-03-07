@@ -1,0 +1,68 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "require_nsg_on_vnet",
+    "properties": {
+        "displayName": "Require NSG on VNET",
+        "description": "This policy ensures that NSG is attached to VNET",        
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Network",
+            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "cloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
+        },
+        "parameters": {
+            "allowedRanges": {
+                "type": "Array",
+                "metadata": {
+                    "displayName": "Approved ranges",
+                    "description": "Provide the list of approved IP ranges for NSGs"
+                }
+            },
+            "effect": {
+                "type": "String",
+                "defaultValue": "Audit",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "anyOf": [
+                    {
+                        "allOf": [
+                            {
+                                "field": "type",
+                                "equals": "Microsoft.Network/networkSecurityGroups/securityRules"
+                            },
+                            {
+                                "anyOf": [
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/sourceAddressPrefix",
+                                        "notin": "[parameters('allowedRanges')]"
+                                    },
+                                    {
+                                        "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationAddressPrefix",
+                                        "notin": "[parameters('allowedRanges')]"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

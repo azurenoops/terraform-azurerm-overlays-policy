@@ -1,9 +1,10 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "audit_subscription_diagnostic_setting_should_exist",
+    "name": "audit_log_analytics_workspace_retention",
     "properties": {
-        "displayName": "Deploy Diagnostic Settings for Subscriptions to a Log Analytics workspace",
-          "metadata": {
+        "displayName": "Audit Log Analytics Workspace Retention",
+        "description": "Audit Log Analytics Workspace Retention",
+        "metadata": {
             "version": "1.0.0",
             "category": "Monitoring",
             "source": "https://github.com/Azure/NoOpsAccelerator/",
@@ -24,28 +25,32 @@
                     "Disabled"
                 ],
                 "defaultValue": "AuditIfNotExists"
+            },
+            "workspaceRetentionDays": {
+                "type": "Integer",
+                "metadata": {
+                    "description": "Log Analytics Workspace should be retained for the specified amount of days. Defaults to 15 months",
+                    "displayName": "Log Analytics Workspace Retention Days"
+                },
+                "defaultValue": 456
             }
         },
         "policyRule": {
             "if": {
-                "field": "type",
-                "equals": "Microsoft.Resources/subscriptions"
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.OperationalInsights/workspaces"
+                    }
+                ]
             },
             "then": {
                 "effect": "[parameters('effect')]",
                 "details": {
-                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "type": "Microsoft.OperationalInsights/workspaces",
                     "existenceCondition": {
-                        "allOf": [
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                                "exists": "true"
-                            },
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
-                                "exists": "true"
-                            }
-                        ]
+                        "field": "Microsoft.OperationalInsights/workspaces/retentionInDays",
+                        "greaterOrEquals": "[parameters('workspaceRetentionDays')]"
                     }
                 }
             }

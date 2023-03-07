@@ -2,8 +2,14 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "audit_log_analytics_workspace_retention",
     "properties": {
-        "metadata": {
-            "category": "Monitoring"
+          "metadata": {
+            "version": "1.0.0",
+            "category": "Monitoring",
+            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "cloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {
             "effect": {

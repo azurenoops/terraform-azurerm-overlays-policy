@@ -1,0 +1,51 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "storage_enforce_minimum_tls1_2",
+    "properties": {
+        "displayName": "Storage accounts should enforce minimum TLS version 1.2",
+        "description": "Storage accounts should enforce minimum TLS version 1.2",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage",
+            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "cloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "defaultValue": "Deny",
+                "allowedValues": [
+                    "Audit",
+                    "Deny",
+                    "Disabled"
+                ],
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+                            "equals": "TLS1_2"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}
