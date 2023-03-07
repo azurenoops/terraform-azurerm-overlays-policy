@@ -1,7 +1,7 @@
 <!-- markdownlint-configure-file { "MD004": { "style": "consistent" } } -->
 <!-- markdownlint-disable MD033 -->
 <p align="center">  
-  <h1 align="left">Azure NoOps Accelerator Policy as Code Modules</h1>
+  <h1 align="left">Azure NoOps Accelerator Policy as Code Overlay Modules</h1>
   <p align="center">
     <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange.svg" alt="MIT License"></a>
     <a href="https://registry.terraform.io/modules/azurenoops/overlays-policy/azurerm/"><img src="https://img.shields.io/badge/terraform-registry-blue.svg" alt="Azure NoOps TF Registry"></a></br>
