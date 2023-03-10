@@ -4,15 +4,16 @@
   "properties": {
     "displayName": "Deploy Diagnostic Settings for Application Gateways to a Log Analytics workspace",
     "description": "Deploys the diagnostic settings for Application Gateways to stream to a regional Log Analytics workspace when any Application Gateway which is missing this diagnostic settings is created or updated.",
+    "mode": "Indexed",
     "metadata": {
       "version": "1.0.0",
       "category": "Monitoring",
       "source": "https://github.com/Azure/NoOpsAccelerator/",
       "cloudEnvironments": [
-          "AzureCloud",
-          "AzureUSGovernment"
+        "AzureCloud",
+        "AzureUSGovernment"
       ]
-  },
+    },
     "parameters": {
       "effect": {
         "type": "String",
@@ -131,6 +132,9 @@
                   "resourceName": {
                     "type": "String"
                   },
+                  "location": {
+                    "type": "String"
+                  },
                   "workspaceId": {
                     "type": "String"
                   },
@@ -159,7 +163,7 @@
                     "type": "Microsoft.Network/applicationGateways/providers/diagnosticSettings",
                     "apiVersion": "2017-05-01-preview",
                     "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                    "location": "uksouth",
+                    "location": "[parameters('location')]",
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('workspaceId')]",
@@ -195,6 +199,9 @@
               "parameters": {
                 "resourceName": {
                   "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
                 },
                 "workspaceId": {
                   "value": "[parameters('workspaceId')]"
