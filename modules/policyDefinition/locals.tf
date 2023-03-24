@@ -4,11 +4,11 @@
 locals {
   # import the custom policy object from a library or specified file path
   policy_object = jsondecode(coalesce(try(
-    file(var.file_path),
-    file("${path.cwd}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json"),
-    file("${path.root}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json"),
-    file("${path.root}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json"),
-    file("${path.module}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json")
+    file(lower(var.file_path)),
+    file(lower("${path.cwd}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json")),
+    file(lower("${path.root}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json")),
+    file(lower("${path.root}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json")),
+    file(lower("${path.module}/custompolicies/definitions/${title(var.policy_category)}/${var.policy_def_name}.json"))
   )))
 
   # fallbacks
