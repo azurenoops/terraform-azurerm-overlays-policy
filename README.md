@@ -123,12 +123,12 @@ The following table lists the built-in policy definitions that are available in 
 
 | Policy Definition Name | Policy Category | Description |
 | ---------------------- | --------------- | ----------- |
-| audit_machinelearning_privateendpointid | Machine Learning | This policy audits machine learning private endpoint id. |
+| audit_ml_privateendpointid | Machine Learning | This policy audits machine learning private endpoint id. |
 | deny_machinelearning_aks | Machine Learning | This policy denies machine learning with AKS. |
-| deny_machinelearning_compute_subnetid | Machine Learning | This policy denies machine learning with compute subnet id. |
-| deny_machinelearning_compute_vmsize | Machine Learning | This policy denies machine learning with compute vm size. |
-| deny_machinelearning_computecluster_remoteloginportpublicaccess | Machine Learning | This policy denies machine learning with compute cluster remote login port public access. |
-| deny_machinelearning_computecluster_scale | Machine Learning | This policy denies machine learning with compute cluster scale. |
+| deny_ml_compute_subnetid | Machine Learning | This policy denies machine learning with compute subnet id. |
+| deny_ml_compute_vmsize | Machine Learning | This policy denies machine learning with compute vm size. |
+| deny_ml_pubicaccess | Machine Learning | This policy denies machine learning with compute cluster remote login port public access. |
+| deny_ml_computecluster_scale | Machine Learning | This policy denies machine learning with compute cluster scale. |
 
 #### Monitoring
 
