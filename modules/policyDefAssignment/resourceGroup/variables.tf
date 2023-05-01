@@ -77,15 +77,16 @@ variable "resource_selectors" {
   default     = []
 }
 
-variable resource_discovery_mode {
-  type        = string
-  description = "The way that resources to remediate are discovered. Possible values are ExistingNonCompliant or ReEvaluateCompliance. Defaults to ExistingNonCompliant. Applies to subscription scope and below"
-  default     = "ExistingNonCompliant"
+variable "identity_ids" {
+  type        = list(any)
+  description = "Optional list of User Managed Identity IDs which should be assigned to the Policy Definition"
+  default     = null
+}
 
-  validation {
-    condition     = var.resource_discovery_mode == "ExistingNonCompliant" || var.resource_discovery_mode == "ReEvaluateCompliance"
-    error_message = "Resource Discovery Mode possible values are: ExistingNonCompliant or ReEvaluateCompliance."
-  }
+variable "re_evaluate_compliance" {
+  type        = bool
+  description = "Sets the remediation task resource_discovery_mode for policies that DeployIfNotExists and Modify. false = 'ExistingNonCompliant' and true = 'ReEvaluateCompliance'. Defaults to false. Applies at subscription scope and below"
+  default     = false
 }
 
 variable remediation_scope {

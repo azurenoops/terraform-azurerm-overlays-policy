@@ -47,7 +47,7 @@ resource azurerm_role_assignment rem_role {
 
 ## remediation tasks ##
 resource azurerm_management_group_policy_remediation rem {
-  for_each                       = { for dr in local.definitions : basename(dr.reference_id) => dr }
+  for_each                       = { for dr in local.definition_reference.mg : basename(dr.reference_id) => dr }
   name                           = lower("${each.key}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   management_group_id            = local.remediation_scope
   policy_assignment_id           = local.assignment.id

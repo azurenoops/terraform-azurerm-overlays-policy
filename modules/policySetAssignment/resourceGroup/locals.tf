@@ -4,9 +4,9 @@
 locals {
   # assignment_name will be trimmed if exceeds 24 characters
   assignment_name = try(lower(substr(coalesce(var.assignment_name, var.initiative.name), 0, 24)), "")
-  display_name = try(coalesce(var.assignment_display_name, var.initiative.display_name), "")
-  description = try(coalesce(var.assignment_description, var.initiative.description), "")
-  metadata = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.initiative.metadata)), {}))
+  display_name    = try(coalesce(var.assignment_display_name, var.initiative.display_name), "")
+  description     = try(coalesce(var.assignment_description, var.initiative.description), "")
+  metadata        = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.initiative.metadata)), {}))
 
   # convert assignment parameters to the required assignment structure
   parameter_values = var.assignment_parameters != null ? {
@@ -34,10 +34,12 @@ locals {
 
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
   definitions = var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
-  
+  definition_reference = try({
+    rg = (length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) < 1 ? length(split("/", local.remediation_scope)) == 5 ? 1 : 0 : 0) ? local.definitions : []
+  })
   # evaluate outputs
   assignment = try(
-    azurerm_resource_group_policy_assignment.set.id,    
+    azurerm_resource_group_policy_assignment.set.id,
   "")
   remediation_tasks = try(
     azurerm_resource_group_policy_remediation.rem,

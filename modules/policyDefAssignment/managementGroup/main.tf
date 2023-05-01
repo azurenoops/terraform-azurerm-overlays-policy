@@ -55,7 +55,7 @@ resource "azurerm_role_assignment" "rem_role" {
 
 ## remediation tasks ##
 resource "azurerm_management_group_policy_remediation" "rem" {
-  count                = local.create_remediation ? 1 : 0
+  count                = local.create_remediation + length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) > 0 ? 1 : 0
   name                 = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   management_group_id  = local.remediation_scope
   policy_assignment_id = local.assignment.id

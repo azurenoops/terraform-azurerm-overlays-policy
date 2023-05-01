@@ -32,7 +32,7 @@ This module creates a policy definition from a policy defination JSON file. The 
 ```hcl
 module allowed_regions {
   source              = "azurenoops/overlays-policy/azurerm//modules/policyDefinition"
-  version             = ""
+  version             = "x.x.x"
   policy_def_name     = "allowed_regions"
   display_name        = "Allow resources only in allowed regions"
   policy_category     = "Custom"
@@ -48,7 +48,7 @@ This module can use values from the [Built-in Polices library](customPolicies) v
 ```hcl
 module allowed_regions {
   source              = "azurenoops/overlays-policy/azurerm//modules/policyDefinition"
-  version             = ""
+  version             = "x.x.x"
   policy_def_name     = "allowed_regions"
   display_name        = "Allow resources only in allowed regions"
   policy_category     = "General"
@@ -212,6 +212,7 @@ Dynamically create a policy set based on multiple custom or built-in policy defi
 ```hcl
 module platform_baseline_initiative {
   source                  = "azurenoops/overlays-policy/azurerm//modules/policyInitiative"
+  version                 = "x.x.x"
   initiative_name         = "platform_baseline_initiative"
   initiative_display_name = "[Platform]: Baseline Policy Set"
   initiative_description  = "Collection of policies representing the baseline platform requirements"
@@ -233,6 +234,7 @@ Assign a policy definition to a management group, subscription, resouce group or
 ```hcl
 module org_mg_whitelist_regions {
   source            = "azurenoops/overlays-policy/azurerm//modules/policyDefAssignment/managmentGroup"
+  version           = "x.x.x"
   definition        = module.allowed_regions.definition
   assignment_scope  = local.management_group_id
   assignment_effect = "Deny"
@@ -255,6 +257,7 @@ Assign a policy set to a management group.
 ```hcl
 module org_mg_platform_diagnostics_initiative {
   source                  = "azurenoops/overlays-policy/azurerm//modules/policySetAssignment"
+  version                 = "x.x.x"
   initiative              = module.platform_diagnostics_initiative.initiative
   assignment_scope        = data.azurerm_management_group.org.id
   assignment_effect       = "DeployIfNotExists"
@@ -287,6 +290,7 @@ Use the exemption module in favour of `not_scopes` to create an auditable time-s
 ```hcl
 module exemption_team_dev_mg_deny_nic_public_ip {
   source               = "azurenoops/overlays-policy/azurerm//modules/policyExemption"
+  version              = "x.x.x"
   name                 = "Deny NIC Public IP Exemption"
   display_name         = "Exempted while testing"
   description          = "Allows NIC Public IPs for testing"

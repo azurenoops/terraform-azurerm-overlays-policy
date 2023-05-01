@@ -15,7 +15,7 @@ resource azurerm_policy_set_definition set {
   metadata   = jsonencode(local.metadata)
   parameters = length(local.parameters) > 0 ? jsonencode(local.parameters) : null
 
-  dynamic policy_definition_reference {
+  dynamic "policy_definition_reference" {
     for_each = [for d in var.member_definitions : {
       id         = d.id
       ref_id     = replace(substr(title(replace(d.name, "/-|_|\\s/", " ")), 0, 64), "/\\s/", "")

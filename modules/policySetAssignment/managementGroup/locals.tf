@@ -34,7 +34,10 @@ locals {
   
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
   definitions = var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
-  
+  definition_reference = try({
+    mg       = length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) > 0 ? local.definitions : []    
+  })
+
   # evaluate outputs
   assignment = try(
     azurerm_management_group_policy_assignment.set.id,

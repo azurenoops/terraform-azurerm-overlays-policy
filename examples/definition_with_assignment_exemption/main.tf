@@ -19,9 +19,10 @@ data "azurerm_role_definition" "contributor" {
 # Monitoring - Policy Definitions
 ##################
 
-# create definitions by looping around all files found under the Monitoring category folder
+# create definitions by looping around all files found under the local Monitoring category folder
 module "deploy_resource_diagnostic_setting" {
   source              = "../../modules/policyDefinition"
+  # Use the for_each meta-argument to iterate over the list of files found in the built-in Monitoring category folder
   for_each            = toset([for p in fileset(path.cwd, "../custom/policies/monitoring/*.json") : trimsuffix(basename(p), ".json")])
   policy_def_name     = each.key
   policy_category     = "Monitoring"
