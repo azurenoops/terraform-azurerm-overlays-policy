@@ -71,6 +71,12 @@ variable non_compliance_message {
   default     = ""
 }
 
+variable "resource_selectors" {
+  type        = list(any)
+  description = "Optional list of Resource selectors (preview), max 10. These facilitate safe deployment practices (SDP) by enabling you to gradually roll out policy assignments based on factors like resource location, resource type, or whether a resource has a location"
+  default     = []
+}
+
 variable resource_discovery_mode {
   type        = string
   description = "The way that resources to remediate are discovered. Possible values are ExistingNonCompliant or ReEvaluateCompliance. Defaults to ExistingNonCompliant. Applies to subscription scope and below"

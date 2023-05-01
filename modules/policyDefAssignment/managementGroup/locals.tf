@@ -29,6 +29,15 @@ locals {
   # policy assignment scope will be used if omitted
   role_assignment_scope = try(coalesce(var.role_assignment_scope, var.assignment_scope), "")
 
+   # if creating role assignments also create a remediation task for policies with DeployIfNotExists and Modify effects
+  create_remediation = var.assignment_enforcement_mode == true && var.skip_remediation == false && length(local.identity_type) > 0 ? 1 : 0
+
+  # assignment location is required when identity is specified
+  assignment_location = length(local.identity_type) > 0 ? var.assignment_location : null
+
+  # evaluate remediation scope from resource identifier
+  resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
+
   # evaluate remediation scope from resource identifier
   remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
 

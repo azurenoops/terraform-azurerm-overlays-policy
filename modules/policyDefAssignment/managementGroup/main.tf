@@ -4,7 +4,7 @@
 # RESOURCES                                      #
 ##################################################
 
-resource azurerm_management_group_policy_assignment def {
+resource "azurerm_management_group_policy_assignment" "def" {
   name                 = local.assignment_name
   display_name         = local.display_name
   description          = local.description
@@ -30,10 +30,22 @@ resource azurerm_management_group_policy_assignment def {
       identity_ids = var.identity_ids
     }
   }
+
+  dynamic "resource_selectors" {
+    for_each = var.resource_selectors
+    content {
+      name = try(resource_selectors.value.name, null)
+      selectors {
+        kind   = resource_selectors.value.selectors.kind
+        in     = try(resource_selectors.value.selectors.in, null)
+        not_in = try(resource_selectors.value.selectors.not_in, null)
+      }
+    }
+  }
 }
 
 ## role assignments ##
-resource azurerm_role_assignment rem_role {
+resource "azurerm_role_assignment" "rem_role" {
   for_each                         = toset(local.role_definition_ids)
   scope                            = local.role_assignment_scope
   role_definition_id               = each.value
@@ -42,13 +54,13 @@ resource azurerm_role_assignment rem_role {
 }
 
 ## remediation tasks ##
-resource azurerm_management_group_policy_remediation rem {
-  count                   = var.skip_remediation == false && length(local.identity_type) > 0 ? 1 : 0
-  name                    = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
-  management_group_id     = local.remediation_scope
-  policy_assignment_id    = local.assignment.id
-  location_filters        = var.location_filters
-  failure_percentage      = var.failure_percentage
-  parallel_deployments    = var.parallel_deployments
-  resource_count          = var.resource_count
+resource "azurerm_management_group_policy_remediation" "rem" {
+  count                = local.create_remediation ? 1 : 0
+  name                 = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
+  management_group_id  = local.remediation_scope
+  policy_assignment_id = local.assignment.id
+  location_filters     = var.location_filters
+  failure_percentage   = var.failure_percentage
+  parallel_deployments = var.parallel_deployments
+  resource_count       = var.resource_count
 }
