@@ -29,6 +29,9 @@ locals {
   # try to use policy definition roles if explicit roles are ommitted
   role_definition_ids = var.skip_role_assignment == false && try(values(local.identity_type)[0], "") == "SystemAssigned" ? try(coalescelist(var.role_definition_ids, try(var.initiative.role_definition_ids, [])), []) : []
 
+  # assignment location is required when identity is specified
+  assignment_location = length(local.identity_type) > 0 ? var.assignment_location : null
+
   # evaluate remediation scope from resource identifier
   remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
   
@@ -37,7 +40,7 @@ locals {
   
   # evaluate outputs
   assignment = try(
-    azurerm_subscription_policy_assignment.set,
+    azurerm_subscription_policy_assignment.set.id,
   "")
   remediation_tasks = try(
     azurerm_subscription_policy_remediation.rem,

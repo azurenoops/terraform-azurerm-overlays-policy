@@ -34,7 +34,7 @@ locals {
 
   # evaluate assignment outputs
   assignment = try(
-    azurerm_subscription_policy_assignment.def,    
+    azurerm_subscription_policy_assignment.def.id,    
   "")
   remediation_id = try(
     azurerm_subscription_policy_remediation.rem[0].id,

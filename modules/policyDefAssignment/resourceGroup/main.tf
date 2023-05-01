@@ -5,7 +5,6 @@
 ##################################################
 
 resource azurerm_resource_group_policy_assignment def {
-  count                = length(regexall("(\\/managementGroups\\/)", var.assignment_scope)) < 1 ? length(split("/", var.assignment_scope)) == 5 ? 1 : 0 : 0
   name                 = local.assignment_name
   display_name         = local.display_name
   description          = local.description

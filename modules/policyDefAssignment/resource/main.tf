@@ -5,7 +5,6 @@
 ##################################################
 
 resource azurerm_resource_policy_assignment def {
-  count                = length(split("/", var.assignment_scope)) >= 6 ? 1 : 0
   name                 = local.assignment_name
   display_name         = local.display_name
   description          = local.description

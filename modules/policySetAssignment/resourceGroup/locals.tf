@@ -37,7 +37,7 @@ locals {
   
   # evaluate outputs
   assignment = try(
-    azurerm_resource_group_policy_assignment.set,    
+    azurerm_resource_group_policy_assignment.set.id,    
   "")
   remediation_tasks = try(
     azurerm_resource_group_policy_remediation.rem,

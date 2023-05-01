@@ -4,8 +4,7 @@
 # RESOURCES                                      #
 ##################################################
 
-resource azurerm_subscription_policy_assignment def {
-  count                = length(split("/", var.assignment_scope)) == 3 ? 1 : 0
+resource azurerm_subscription_policy_assignment def {  
   name                 = local.assignment_name
   display_name         = local.display_name
   description          = local.description
