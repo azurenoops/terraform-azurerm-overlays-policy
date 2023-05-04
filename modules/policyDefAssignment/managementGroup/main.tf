@@ -49,7 +49,7 @@ resource "azurerm_role_assignment" "rem_role" {
   for_each                         = toset(local.role_definition_ids)
   scope                            = local.role_assignment_scope
   role_definition_id               = each.value
-  principal_id                     = local.assignment.identity[0].principal_id
+  principal_id                     = azurerm_management_group_policy_assignment.def[0].identity[0].principal_id
   skip_service_principal_aad_check = true
 }
 
@@ -58,7 +58,7 @@ resource "azurerm_management_group_policy_remediation" "rem" {
   count                = local.create_remediation + length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) > 0 ? 1 : 0
   name                 = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   management_group_id  = local.remediation_scope
-  policy_assignment_id = azurerm_management_group_policy_assignment.def.id
+  policy_assignment_id = azurerm_management_group_policy_assignment.def[0].id
   location_filters     = var.location_filters
   failure_percentage   = var.failure_percentage
   parallel_deployments = var.parallel_deployments

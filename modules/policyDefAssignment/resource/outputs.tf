@@ -4,12 +4,12 @@
 
 output id {
   description = "The Policy Assignment Id"
-  value       = azurerm_resource_policy_assignment.def.id
+  value       = azurerm_resource_policy_assignment.def[0].id
 }
 
 output identity_id {
   description = "The Managed Identity block containing Principal Id & Tenant Id of this Policy Assignment if type is SystemAssigned"
-  value       = try(local.assignment.identity[0].principal_id, null)
+  value       = try(azurerm_resource_policy_assignment.def[0].identity[0].principal_id, null)
 }
 
 output remediation_id {

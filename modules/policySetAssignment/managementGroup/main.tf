@@ -64,7 +64,7 @@ resource azurerm_role_assignment rem_role {
   for_each                         = toset(local.role_definition_ids)
   scope                            = coalesce(var.role_assignment_scope, var.assignment_scope)
   role_definition_id               = each.value
-  principal_id                     = local.assignment.identity[0].principal_id
+  principal_id                     = azurerm_management_group_policy_assignment.set[0].identity[0].principal_id
   skip_service_principal_aad_check = true
 }
 
@@ -73,7 +73,7 @@ resource azurerm_management_group_policy_remediation rem {
   for_each                       = { for dr in local.definition_reference.mg : basename(dr.reference_id) => dr }
   name                           = lower("${each.key}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   management_group_id            = local.remediation_scope
-  policy_assignment_id           = azurerm_management_group_policy_assignment.set.id
+  policy_assignment_id           = azurerm_management_group_policy_assignment.set[0].id
   policy_definition_reference_id = each.key
   location_filters               = var.location_filters
   failure_percentage             = var.failure_percentage
