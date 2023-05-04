@@ -4,7 +4,7 @@
 
 output id {
   description = "The Policy Assignment Id"
-  value       = local.assignment.id
+  value       = azurerm_management_group_policy_assignment.def.id
 }
 
 output identity_id {

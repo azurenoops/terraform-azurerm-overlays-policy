@@ -73,7 +73,7 @@ resource "azurerm_subscription_policy_remediation" "rem" {
   for_each                       = { for dr in local.definition_reference.sub : basename(dr.reference_id) => dr }
   name                           = lower("${each.key}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   subscription_id                = local.remediation_scope
-  policy_assignment_id           = local.assignment.id
+  policy_assignment_id           = azurerm_subscription_policy_assignment.set.id
   policy_definition_reference_id = each.key
   resource_discovery_mode        = var.resource_discovery_mode
   location_filters               = var.location_filters

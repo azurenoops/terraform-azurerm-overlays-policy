@@ -42,9 +42,6 @@ locals {
   remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")  
 
   # evaluate assignment outputs
-  assignment = try(
-    azurerm_resource_group_policy_assignment.def.id,    
-  "")
   remediation_id = try(
     azurerm_resource_group_policy_remediation.rem[0].id,
   "")

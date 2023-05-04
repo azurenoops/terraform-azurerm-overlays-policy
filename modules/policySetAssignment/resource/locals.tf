@@ -40,10 +40,7 @@ locals {
   definition_reference = try({
     resource = length(split("/", local.remediation_scope)) >= 6 ? local.definitions : []
   })
-  # evaluate outputs
-  assignment = try(
-    azurerm_resource_policy_assignment.set.id,
-  "")
+  # evaluate outputs 
   remediation_tasks = try(
     azurerm_resource_policy_remediation.rem,
   {})

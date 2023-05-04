@@ -41,10 +41,7 @@ locals {
     mg       = length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) > 0 ? local.definitions : []    
   })
 
-  # evaluate outputs
-  assignment = try(
-    azurerm_management_group_policy_assignment.set.id,
-  "")
+  # evaluate outputs  
   remediation_tasks = try(
     azurerm_management_group_policy_remediation.rem,
   {})

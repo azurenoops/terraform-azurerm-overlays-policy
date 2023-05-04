@@ -40,10 +40,7 @@ locals {
   definition_reference = try({
     rg = (length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) < 1 ? length(split("/", local.remediation_scope)) == 5 ? 1 : 0 : 0) ? local.definitions : []
   })
-  # evaluate outputs
-  assignment = try(
-    azurerm_resource_group_policy_assignment.set.id,
-  "")
+  # evaluate outputs  
   remediation_tasks = try(
     azurerm_resource_group_policy_remediation.rem,
   {})

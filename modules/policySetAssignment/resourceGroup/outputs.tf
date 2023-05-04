@@ -6,7 +6,7 @@
 ##################################################
 output id {
   description = "The Policy Assignment Id"
-  value       = local.assignment.id
+  value       = azurerm_resource_group_policy_assignment.set.id
 }
 
 output principal_id {

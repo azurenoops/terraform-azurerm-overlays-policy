@@ -41,9 +41,6 @@ locals {
     sub = length(split("/", local.remediation_scope)) == 3 ? local.definitions : []
   })
   # evaluate outputs
-  assignment = try(
-    azurerm_subscription_policy_assignment.set.id,
-  "")
   remediation_tasks = try(
     azurerm_subscription_policy_remediation.rem,
   {})
