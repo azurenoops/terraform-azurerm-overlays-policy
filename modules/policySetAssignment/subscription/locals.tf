@@ -36,7 +36,7 @@ locals {
   remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
 
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
-  definitions = var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
+  definitions = var.assignment_enforcement_mode == true && var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
   definition_reference = try({
     sub = length(split("/", local.remediation_scope)) == 3 ? local.definitions : []
   })

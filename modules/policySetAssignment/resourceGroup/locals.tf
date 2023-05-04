@@ -29,11 +29,14 @@ locals {
   # try to use policy definition roles if explicit roles are ommitted
   role_definition_ids = var.skip_role_assignment == false && try(values(local.identity_type)[0], "") == "SystemAssigned" ? try(coalescelist(var.role_definition_ids, try(var.initiative.role_definition_ids, [])), []) : []
 
+  # assignment location is required when identity is specified
+  assignment_location = length(local.identity_type) > 0 ? var.assignment_location : null
+
   # evaluate remediation scope from resource identifier
   remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
 
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
-  definitions = var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
+  definitions = var.assignment_enforcement_mode == true && var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
   definition_reference = try({
     rg = (length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) < 1 ? length(split("/", local.remediation_scope)) == 5 ? 1 : 0 : 0) ? local.definitions : []
   })

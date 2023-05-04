@@ -46,6 +46,6 @@ locals {
     azurerm_subscription_policy_assignment.def.id,    
   "")
   remediation_id = try(
-    azurerm_subscription_policy_remediation.rem[0].id,
+    azurerm_subscription_policy_remediation.rem,
   "")
 }

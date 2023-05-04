@@ -55,12 +55,12 @@ module "org_mg_platform_diagnostics_initiative" {
   source               = "../../modules/policySetAssignment/managementGroup"
   initiative           = module.platform_diagnostics_initiative.initiative
   assignment_scope     = data.azurerm_management_group.org.id
-  skip_remediation     = true
-  skip_role_assignment = false
 
-  role_definition_ids = [
-    data.azurerm_role_definition.contributor.id # using explicit roles
-  ]
+  # resource remediation options
+  re_evaluate_compliance = false
+  skip_remediation       = false
+  skip_role_assignment   = false
+  role_definition_ids    = [data.azurerm_role_definition.contributor.id] # using explicit roles
 
   non_compliance_messages = {
     null                                        = "The Default non-compliance message for all member definitions"
