@@ -58,7 +58,7 @@ resource "azurerm_management_group_policy_remediation" "rem" {
   count                = local.create_remediation + length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) > 0 ? 1 : 0
   name                 = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   management_group_id  = local.remediation_scope
-  policy_assignment_id = local.assignment.id
+  policy_assignment_id = azurerm_management_group_policy_assignment.def.id
   location_filters     = var.location_filters
   failure_percentage   = var.failure_percentage
   parallel_deployments = var.parallel_deployments
