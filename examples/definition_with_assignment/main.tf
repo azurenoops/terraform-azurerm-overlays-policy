@@ -13,7 +13,7 @@ data "azurerm_management_group" "org" {
 ##################
 # General - Management Group
 ##################
-module "deny_resources_types" {  
+module "deny_resources_types" {
   source              = "../../modules/policyDefinition"
   policy_def_name     = "deny_resources_types" # Name of the policy definition to create from the custom policy definition file
   display_name        = "Deny Azure Resource types"

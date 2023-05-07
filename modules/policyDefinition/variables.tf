@@ -1,13 +1,13 @@
 ##################################################
 # VARIABLES                                      #
 ##################################################
-variable management_group_id {
+variable "management_group_id" {
   type        = string
   description = "The management group scope at which the policy will be defined. Defaults to current Subscription if omitted. Changing this forces a new resource to be created."
   default     = null
 }
 
-variable policy_def_name {
+variable "policy_def_name" {
   type        = string
   description = "Name to be used for this policy, when using the module library this should correspond to the correct category folder under /policies/policy_category/policy_name. Changing this forces a new resource to be created."
   default     = ""
@@ -18,7 +18,7 @@ variable policy_def_name {
   }
 }
 
-variable display_name {
+variable "display_name" {
   type        = string
   description = "Display Name to be used for this policy"
   default     = ""
@@ -29,7 +29,7 @@ variable display_name {
   }
 }
 
-variable policy_def_description {
+variable "policy_def_description" {
   type        = string
   description = "Policy definition description"
   default     = ""
@@ -40,7 +40,7 @@ variable policy_def_description {
   }
 }
 
-variable policy_mode {
+variable "policy_mode" {
   type        = string
   description = "The policy mode that allows you to specify which resource types will be evaluated, defaults to All. Possible values are All and Indexed"
   default     = "All"
@@ -51,37 +51,37 @@ variable policy_mode {
   }
 }
 
-variable policy_category {
+variable "policy_category" {
   type        = string
   description = "The category of the policy, when using the module library this should correspond to the correct category folder under /policies/var.policy_category"
   default     = null
 }
 
-variable policy_version {
+variable "policy_version" {
   type        = string
   description = "The version for this policy, if different from the one stored in the definition metadata, defaults to 1.0.0"
   default     = null
 }
 
-variable policy_def_rule {
+variable "policy_def_rule" {
   type        = any
   description = "The policy rule for the policy definition. This is a JSON object representing the rule that contains an if and a then block. Omitting this assumes the rules are located in /policies/var.policy_category/var.policy_name.json"
   default     = null
 }
 
-variable policy_def_parameters {
+variable "policy_def_parameters" {
   type        = any
   description = "Parameters for the policy definition. This field is a JSON object that allows you to parameterise your policy definition. Omitting this assumes the parameters are located in /policies/var.policy_category/var.policy_name.json"
   default     = null
 }
 
-variable policy_def_metadata {
+variable "policy_def_metadata" {
   type        = any
   description = "The metadata for the policy definition. This is a JSON object representing additional metadata that should be stored with the policy definition. Omitting this will fallback to meta in the definition or merge var.policy_category and var.policy_version"
   default     = null
 }
 
-variable file_path {
+variable "file_path" {
   type        = any
   description = "The filepath to the custom policy. Omitting this assumes the policy is located in the module library"
   default     = null

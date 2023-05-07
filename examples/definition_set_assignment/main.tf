@@ -16,7 +16,7 @@ data "azurerm_management_group" "team_dev" {
 }
 
 # Contributor role
-data azurerm_role_definition contributor {
+data "azurerm_role_definition" "contributor" {
   name = "Contributor"
 }
 
@@ -26,15 +26,15 @@ data azurerm_role_definition contributor {
 
 # create definitions by calling them explicitly from a local (as above)
 module "configure_asc" {
-  source              = "../../modules/policyDefinition"
-  for_each            = toset([
+  source = "../../modules/policyDefinition"
+  for_each = toset([
     "auto_enroll_subscriptions",
     "auto_provision_log_analytics_agent_custom_workspace",
     "auto_set_contact_details",
     "export_asc_alerts_and_recommendations_to_eventhub",
     "export_asc_alerts_and_recommendations_to_log_analytics",
   ])
-  policy_def_name         = each.value
+  policy_def_name     = each.value
   policy_category     = "Security"
   management_group_id = data.azurerm_management_group.org.id
 }

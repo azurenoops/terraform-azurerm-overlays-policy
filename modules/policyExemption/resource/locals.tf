@@ -10,7 +10,7 @@ locals {
     replace(substr(title(replace(name, "/-|_|\\s/", " ")), 0, 64), "/\\s/", "")
   ] : var.policy_definition_reference_ids
 
-  exemption_id = try(    
+  exemption_id = try(
     azurerm_resource_policy_exemption.resource_exemption.id,
   "")
 }

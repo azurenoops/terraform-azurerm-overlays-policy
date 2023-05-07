@@ -21,9 +21,9 @@ data "azurerm_policy_definition" "allowed_virtual_machine_size_SKUs" {
 # Built-In Definition Assignment - Management Group
 ##################
 module "org_mg_allowed_virtual_machine_size_SKUs_assignment" {
-  source            = "../../modules/policyDefAssignment/managementGroup"
-  definition        = data.azurerm_policy_definition.allowed_virtual_machine_size_SKUs
-  assignment_scope  = data.azurerm_management_group.org.id
+  source           = "../../modules/policyDefAssignment/managementGroup"
+  definition       = data.azurerm_policy_definition.allowed_virtual_machine_size_SKUs
+  assignment_scope = data.azurerm_management_group.org.id
 
   assignment_parameters = {
     listOfAllowedSKUs = [

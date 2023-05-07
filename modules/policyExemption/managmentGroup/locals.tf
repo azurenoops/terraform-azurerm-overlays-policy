@@ -1,6 +1,6 @@
 
 
-locals { 
+locals {
   expires_on = var.expires_on != null ? "${var.expires_on}T23:00:00Z" : null
 
   metadata = var.metadata != null ? jsonencode(var.metadata) : null
@@ -11,6 +11,6 @@ locals {
   ] : var.policy_definition_reference_ids
 
   exemption_id = try(
-    azurerm_management_group_policy_exemption.management_group_exemption.id,    
+    azurerm_management_group_policy_exemption.management_group_exemption.id,
   "")
 }

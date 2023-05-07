@@ -1,7 +1,7 @@
 ##################################################
 # OUTPUTS                                        #
 ##################################################
-output resource_exemption {
+output "resource_exemption" {
   description = "The Policy Exemption Details for the Resource"
   value = {
     name                     = var.name

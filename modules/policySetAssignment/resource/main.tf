@@ -7,7 +7,7 @@
 # RESOURCES                                      #
 ##################################################
 
-resource azurerm_resource_policy_assignment set {
+resource "azurerm_resource_policy_assignment" "set" {
   name                 = local.assignment_name
   display_name         = local.display_name
   description          = local.description
@@ -34,7 +34,7 @@ resource azurerm_resource_policy_assignment set {
       identity_ids = var.identity_ids
     }
   }
-  
+
   dynamic "overrides" {
     for_each = var.overrides
     content {
@@ -60,7 +60,7 @@ resource azurerm_resource_policy_assignment set {
 }
 
 ## role assignments ##
-resource azurerm_role_assignment rem_role {
+resource "azurerm_role_assignment" "rem_role" {
   for_each                         = toset(local.role_definition_ids)
   scope                            = coalesce(var.role_assignment_scope, var.assignment_scope)
   role_definition_id               = each.value
@@ -69,7 +69,7 @@ resource azurerm_role_assignment rem_role {
 }
 
 ## remediation tasks ##
-resource azurerm_resource_policy_remediation rem {
+resource "azurerm_resource_policy_remediation" "rem" {
   for_each                       = { for dr in local.definition_reference.resource : basename(dr.reference_id) => dr }
   name                           = lower("${each.key}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   resource_id                    = local.remediation_scope

@@ -39,7 +39,7 @@ locals {
   resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
 
   # evaluate remediation scope from resource identifier
-  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")  
+  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
 
   # evaluate assignment outputs
   remediation_id = try(

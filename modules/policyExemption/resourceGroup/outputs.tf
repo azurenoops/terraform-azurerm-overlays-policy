@@ -1,7 +1,7 @@
 ##################################################
 # OUTPUTS                                        #
 ##################################################
-output resource_group_exemption {
+output "resource_group_exemption" {
   description = "The Policy Exemption Details for the Resource Group"
   value = {
     name                     = var.name

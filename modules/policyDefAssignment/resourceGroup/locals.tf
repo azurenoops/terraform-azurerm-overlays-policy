@@ -4,9 +4,9 @@
 locals {
   # assignment_name will be trimmed if exceeds 24 characters
   assignment_name = try(lower(substr(coalesce(var.assignment_name, var.definition.name), 0, 24)), "")
-  display_name = try(coalesce(var.assignment_display_name, var.definition.display_name), "")
-  description = try(coalesce(var.assignment_description, var.definition.description), "")
-  metadata = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.definition.metadata)), {}))
+  display_name    = try(coalesce(var.assignment_display_name, var.definition.display_name), "")
+  description     = try(coalesce(var.assignment_description, var.definition.description), "")
+  metadata        = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.definition.metadata)), {}))
 
   # convert assignment parameters to the required assignment structure
   parameter_values = var.assignment_parameters != null ? {
@@ -39,7 +39,7 @@ locals {
   resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
 
   # evaluate remediation scope from resource identifier
-  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")  
+  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
 
   # evaluate assignment outputs
   remediation_id = try(

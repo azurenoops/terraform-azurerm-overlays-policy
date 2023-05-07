@@ -11,6 +11,6 @@ locals {
   ] : var.policy_definition_reference_ids
 
   exemption_id = try(
-    azurerm_resource_group_policy_exemption.resource_group_exemption.id,    
+    azurerm_resource_group_policy_exemption.resource_group_exemption.id,
   "")
 }

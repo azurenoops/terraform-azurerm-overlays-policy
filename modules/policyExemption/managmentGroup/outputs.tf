@@ -1,7 +1,7 @@
 ##################################################
 # OUTPUTS                                        #
 ##################################################
-output mg_exemption {
+output "mg_exemption" {
   description = "The Policy Exemption Details for the Management Group"
   value = {
     name                     = var.name

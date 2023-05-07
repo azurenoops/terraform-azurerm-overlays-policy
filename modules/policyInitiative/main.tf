@@ -4,7 +4,7 @@
 # RESOURCES                                      #
 ##################################################
 
-resource azurerm_policy_set_definition set {
+resource "azurerm_policy_set_definition" "set" {
   name         = var.initiative_name
   display_name = var.initiative_display_name
   description  = var.initiative_description
@@ -29,7 +29,7 @@ resource azurerm_policy_set_definition set {
       parameter_values = length(policy_definition_reference.value.parameters) > 0 ? jsonencode({
         for k in keys(policy_definition_reference.value.parameters) :
         k => {
-          value = k == "effect" && var.merge_effects == false ? "[parameters('${format("%s_%s", k, policy_definition_reference.value.ref_id)}')]" : var.merge_parameters == false ? "[parameters('${format("%s_%s", k, policy_definition_reference.value.ref_id)}')]" :"[parameters('${k}')]"
+          value = k == "effect" && var.merge_effects == false ? "[parameters('${format("%s_%s", k, policy_definition_reference.value.ref_id)}')]" : var.merge_parameters == false ? "[parameters('${format("%s_%s", k, policy_definition_reference.value.ref_id)}')]" : "[parameters('${k}')]"
         }
       }) : null
       policy_group_names = policy_definition_reference.value.groups

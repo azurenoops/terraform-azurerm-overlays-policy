@@ -1,7 +1,7 @@
 ##################################################
 # OUTPUTS                                        #
 ##################################################
-output subscription_exemption {
+output "subscription_exemption" {
   description = "The Policy Exemption Details for the Subscription"
   value = {
     name                     = var.name
