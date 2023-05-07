@@ -7,8 +7,8 @@ locals {
     file(var.file_path),
     file("${path.cwd}/custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json"),
     file("${path.root}/custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json"),
-    file("${path.root}/../custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json"),
-    file("${path.module}/../../custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json")
+    file("${path.root}/custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json"),
+    file("${path.module}/custompolicies/definitions/${title(lower(var.policy_category))}/${var.policy_def_name}.json")
   )))
 
   # fallbacks
