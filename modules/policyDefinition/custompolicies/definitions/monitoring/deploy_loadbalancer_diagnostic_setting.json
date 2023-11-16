@@ -138,13 +138,7 @@
                   },
                   "storageAccountId": {
                     "type": "String"
-                  },
-                  "eventHubAuthorizationRuleId": {
-                    "type": "String"
-                  },
-                  "eventHubName": {
-                    "type": "String"
-                  },
+                  },                  
                   "metricsEnabled": {
                     "type": "String"
                   },
@@ -199,13 +193,7 @@
                 },
                 "storageAccountId": {
                   "Value": "[parameters('storageAccountId')]"
-                },
-                "eventHubAuthorizationRuleId": {
-                  "Value": "[parameters('eventHubAuthorizationRuleId')]"
-                },
-                "eventHubName": {
-                  "Value": "[parameters('eventHubName')]"
-                },
+                },                
                 "metricsEnabled": {
                   "value": "[parameters('metricsEnabled')]"
                 },

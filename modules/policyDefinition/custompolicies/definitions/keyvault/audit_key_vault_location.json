@@ -3,12 +3,13 @@
     "name": "append_kv_softdelete",
     "properties": {
         "mode": "Indexed",
+        "policyType": "Custom",
         "displayName": "KeyVault SoftDelete should be enabled",
         "description": "This policy enables you to ensure when a Key Vault is created with out soft delete enabled it will be added.",
         "metadata": {
             "version": "1.0.0",
             "category": "Key Vault",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "source": "https://github.com/azurenoops/",
             "cloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
