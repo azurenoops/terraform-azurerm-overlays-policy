@@ -112,6 +112,9 @@
                                     "resourceName": {
                                         "type": "String"
                                     },
+                                    "location": {
+                                        "type": "String"
+                                    },
                                     "workspaceId": {
                                         "type": "String"
                                     },
@@ -134,7 +137,7 @@
                                         "type": "Microsoft.KeyVault/vaults/providers/diagnosticSettings",
                                         "apiVersion": "2017-05-01-preview",
                                         "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                                        "location": "uksouth",
+                                        "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",

@@ -9,10 +9,10 @@
       "category": "Monitoring",
       "source": "https://github.com/Azure/NoOpsAccelerator/",
       "cloudEnvironments": [
-          "AzureCloud",
-          "AzureUSGovernment"
+        "AzureCloud",
+        "AzureUSGovernment"
       ]
-  },
+    },
     "parameters": {
       "effect": {
         "type": "String",
@@ -50,7 +50,7 @@
           "description": "The Storage Account Resource Id to send activity logs",
           "assignPermissions": true
         }
-      },      
+      },
       "metricsEnabled": {
         "type": "String",
         "defaultValue": "False",
@@ -112,12 +112,15 @@
                   "resourceName": {
                     "type": "String"
                   },
+                  "location": {
+                    "type": "String"
+                  },
                   "workspaceId": {
                     "type": "String"
                   },
                   "storageAccountId": {
                     "type": "String"
-                  },                  
+                  },
                   "metricsEnabled": {
                     "type": "String"
                   },
@@ -134,11 +137,11 @@
                     "type": "Microsoft.EventHub/namespaces/providers/diagnosticSettings",
                     "apiVersion": "2017-05-01-preview",
                     "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                    "location": "uksouth",
+                    "location": "[parameters('location')]",
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('workspaceId')]",
-                      "storageAccountId": "[parameters('storageAccountId')]",                     
+                      "storageAccountId": "[parameters('storageAccountId')]",
                       "metrics": [
                         {
                           "category": "AllMetrics",
@@ -190,7 +193,7 @@
                 },
                 "storageAccountId": {
                   "Value": "[parameters('storageAccountId')]"
-                },                
+                },
                 "metricsEnabled": {
                   "value": "[parameters('metricsEnabled')]"
                 },

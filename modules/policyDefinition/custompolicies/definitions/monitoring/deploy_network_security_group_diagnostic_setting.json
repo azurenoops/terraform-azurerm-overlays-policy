@@ -101,6 +101,9 @@
                                     "resourceName": {
                                         "type": "String"
                                     },
+                                    "location": {
+                                        "type": "String"
+                                    },
                                     "workspaceId": {
                                         "type": "String"
                                     },
@@ -120,7 +123,7 @@
                                         "type": "Microsoft.Network/networkSecurityGroups/providers/diagnosticSettings",
                                         "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                                         "apiVersion": "2017-05-01-preview",
-                                        "location": "uksouth",
+                                        "location": "[parameters('location')]",
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",

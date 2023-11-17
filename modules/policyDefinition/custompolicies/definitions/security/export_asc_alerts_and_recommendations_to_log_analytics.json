@@ -36,12 +36,7 @@
                 }
             },
             "resourceGroupLocation": {
-                "type": "String",
-                "allowedValues": [
-                    "uksouth",
-                    "ukwest"
-                ],
-                "defaultValue": "uksouth",
+                "type": "String",                
                 "metadata": {
                     "displayName": "Resource group location",
                     "description": "The location where the resource group and the export to Log Analytics configuration are created.",
@@ -160,7 +155,7 @@
                         "equals": "Workspace"
                     },
                     "deployment": {
-                        "location": "uksouth",
+                        "location": "[parameters('resourceGroupLocation')]",
                         "properties": {
                             "mode": "incremental",
                             "template": {
