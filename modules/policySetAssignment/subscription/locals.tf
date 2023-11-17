@@ -33,12 +33,16 @@ locals {
   assignment_location = length(local.identity_type) > 0 ? var.assignment_location : null
 
   # evaluate remediation scope from resource identifier
-  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+  resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
+  remediation_scope       = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+  remediate = try({
+    sub      = length(split("/", local.remediation_scope)) == 3 ? 1 : 0    
+  })
 
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
   definitions = var.assignment_enforcement_mode == true && var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
   definition_reference = try({
-    sub = length(split("/", local.remediation_scope)) == 3 ? local.definitions : []
+    sub = local.remediate.sub > 0 ? local.definitions : []
   })
   # evaluate outputs
   remediation_tasks = try(
