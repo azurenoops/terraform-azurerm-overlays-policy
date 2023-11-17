@@ -15,7 +15,7 @@ locals {
   } : null
 
   # merge effect with parameter_values if specified, will use definition defaults if omitted
-  parameters = var.assignment_effect != null ? jsonencode(merge(local.parameter_values, { effect = { value = var.assignment_effect } })) : jsonencode(local.parameter_values)
+  parameters = local.parameter_values != null ? var.assignment_effect != null ? jsonencode(merge(local.parameter_values, { effect = { value = var.assignment_effect } })) : jsonencode(local.parameter_values) : null
 
   # create the optional non-compliance message contents block if present
   non_compliance_message = var.non_compliance_message != "" ? { content = var.non_compliance_message } : {}
@@ -37,9 +37,10 @@ locals {
 
   # evaluate remediation scope from resource identifier
   resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
-
-  # evaluate remediation scope from resource identifier
-  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+  remediation_scope       = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+  remediate = try({
+    sub      = length(split("/", local.remediation_scope)) == 3 ? 1 : 0
+  })
 
   # evaluate assignment outputs
   remediation_id = try(

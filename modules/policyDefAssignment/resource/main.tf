@@ -55,7 +55,7 @@ resource "azurerm_role_assignment" "rem_role" {
 
 ## remediation tasks ##
 resource "azurerm_resource_policy_remediation" "rem" {
-  count                   = local.create_remediation + length(split("/", local.remediation_scope)) >= 6 ? 1 : 0
+  count                   = local.create_remediation + local.remediate.resource > 1 ? 1 : 0
   name                    = lower("${var.definition.name}-${formatdate("DD-MM-YYYY-hh:mm:ss", timestamp())}")
   resource_id             = local.remediation_scope
   policy_assignment_id    = azurerm_resource_policy_assignment.def.id
