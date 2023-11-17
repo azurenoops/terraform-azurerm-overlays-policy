@@ -3,7 +3,7 @@
 
 locals {
   # assignment_name will be trimmed if exceeds 24 characters
-  assignment_name = try(lower(substr(coalesce(var.assignment_name, var.initiative.name), 0, 24)), "")
+  assignment_name = try(lower(substr(coalesce(var.assignment_name, var.initiative.name), 0, 64)), "")
   display_name    = try(coalesce(var.assignment_display_name, var.initiative.display_name), "")
   description     = try(coalesce(var.assignment_description, var.initiative.description), "")
   metadata        = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.initiative.metadata)), {}))
