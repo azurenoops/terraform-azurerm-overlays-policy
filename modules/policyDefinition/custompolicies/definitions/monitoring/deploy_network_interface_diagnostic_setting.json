@@ -104,13 +104,7 @@
                                     },
                                     "storageAccountId": {
                                         "type": "String"
-                                    },
-                                    "eventHubAuthorizationRuleId": {
-                                        "type": "String"
-                                    },
-                                    "eventHubName": {
-                                        "type": "String"
-                                    },
+                                    },                                    
                                     "metricsEnabled": {
                                         "type": "String"
                                     },
@@ -142,7 +136,7 @@
                                 "outputs": {
                                     "policy": {
                                         "type": "String",
-                                        "value": "[concat(parameters('eventHubName'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
+                                        "value": "[concat(parameters('workspaceId'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
                                     }
                                 }
                             },

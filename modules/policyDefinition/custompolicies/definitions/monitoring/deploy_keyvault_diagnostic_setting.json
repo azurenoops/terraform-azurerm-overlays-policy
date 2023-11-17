@@ -117,13 +117,7 @@
                                     },
                                     "storageAccountId": {
                                         "type": "String"
-                                    },
-                                    "eventHubAuthorizationRuleId": {
-                                        "type": "String"
-                                    },
-                                    "eventHubName": {
-                                        "type": "String"
-                                    },
+                                    },                                    
                                     "metricsEnabled": {
                                         "type": "String"
                                     },

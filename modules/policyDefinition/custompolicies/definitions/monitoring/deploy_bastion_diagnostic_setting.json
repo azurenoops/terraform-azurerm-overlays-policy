@@ -52,7 +52,7 @@
                     "assignPermissions": true
                 }
             },
-                     "metricsEnabled": {
+            "metricsEnabled": {
                 "type": "String",
                 "defaultValue": "False",
                 "allowedValues": [
@@ -122,12 +122,6 @@
                                     "storageAccountId": {
                                         "type": "String"
                                     },
-                                    "eventHubAuthorizationRuleId": {
-                                        "type": "String"
-                                    },
-                                    "eventHubName": {
-                                        "type": "String"
-                                    },
                                     "metricsEnabled": {
                                         "type": "String"
                                     },
@@ -183,7 +177,7 @@
                                 },
                                 "storageAccountId": {
                                     "Value": "[parameters('storageAccountId')]"
-                                },                                
+                                },
                                 "metricsEnabled": {
                                     "value": "[parameters('metricsEnabled')]"
                                 },

@@ -40,10 +40,6 @@
                             {
                                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
                                 "exists": "true"
-                            },
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
-                                "exists": "true"
                             }
                         ]
                     }
