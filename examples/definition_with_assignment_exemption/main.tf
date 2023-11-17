@@ -70,8 +70,6 @@ module "org_mg_platform_diagnostics_initiative" {
   assignment_parameters = {
     workspaceId                                        = "/uri/log-analytics-workspace-workspaceId"
     storageAccountId                                   = "/uri/log-analytics-workspace-storageAccountId"
-    eventHubName                                       = "/uri/log-analytics-workspace-eventHubName"
-    eventHubAuthorizationRuleId                        = "/uri/log-analytics-workspace-eventHubAuthorizationRuleId"
     metricsEnabled                                     = "True"
     logsEnabled                                        = "True"
     effect_DeployApplicationGatewayDiagnosticSetting   = "DeployIfNotExists"
