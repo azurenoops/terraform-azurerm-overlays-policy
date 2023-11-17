@@ -95,10 +95,6 @@
                             {
                                 "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
                                 "equals": "[parameters('metricsEnabled')]"
-                            },
-                            {
-                                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
-                                "matchInsensitively": "[parameters('eventHubName')]"
                             }
                         ]
                     },
@@ -149,8 +145,6 @@
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
                                             "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
                                             "metrics": [
                                                 {
                                                     "category": "AllMetrics",
@@ -178,12 +172,6 @@
                                 },
                                 "storageAccountId": {
                                     "Value": "[parameters('storageAccountId')]"
-                                },
-                                "eventHubAuthorizationRuleId": {
-                                    "Value": "[parameters('eventHubAuthorizationRuleId')]"
-                                },
-                                "eventHubName": {
-                                    "Value": "[parameters('eventHubName')]"
                                 },
                                 "metricsEnabled": {
                                     "value": "[parameters('metricsEnabled')]"

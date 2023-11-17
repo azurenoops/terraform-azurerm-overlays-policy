@@ -148,9 +148,7 @@
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
+                                            "storageAccountId": "[parameters('storageAccountId')]",                                            
                                             "metrics": [
                                                 {
                                                     "category": "Capacity",
@@ -180,9 +178,7 @@
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
+                                            "storageAccountId": "[parameters('storageAccountId')]",                                            
                                             "metrics": [
                                                 {
                                                     "category": "Capacity",
@@ -237,9 +233,7 @@
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
+                                            "storageAccountId": "[parameters('storageAccountId')]",                                            
                                             "metrics": [
                                                 {
                                                     "category": "Capacity",
@@ -294,9 +288,7 @@
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
+                                            "storageAccountId": "[parameters('storageAccountId')]",                                            
                                             "metrics": [
                                                 {
                                                     "category": "Capacity",
@@ -351,9 +343,7 @@
                                         "dependsOn": [],
                                         "properties": {
                                             "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
-                                            "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                                            "eventHubName": "[parameters('eventHubName')]",
+                                            "storageAccountId": "[parameters('storageAccountId')]",                                            
                                             "metrics": [
                                                 {
                                                     "category": "Capacity",
@@ -415,13 +405,7 @@
                                 },
                                 "storageAccountId": {
                                     "value": "[parameters('storageAccountId')]"
-                                },
-                                "eventHubAuthorizationRuleId": {
-                                    "value": "[parameters('eventHubAuthorizationRuleId')]"
-                                },
-                                "eventHubName": {
-                                    "value": "[parameters('eventHubName')]"
-                                },
+                                },                                
                                 "metricsEnabled": {
                                     "value": "[parameters('metricsEnabled')]"
                                 },
