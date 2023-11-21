@@ -50,23 +50,7 @@
           "description": "The Storage Account Resource Id to send activity logs",
           "assignPermissions": true
         }
-      },
-      "eventHubAuthorizationRuleId": {
-        "type": "String",
-        "metadata": {
-          "displayName": "Event Hub Authorization Rule Id",
-          "description": "The Event Hub authorization rule Id for Azure Diagnostics. The authorization rule needs to be at Event Hub namespace level. e.g. /subscriptions/{subscription Id}/resourceGroups/{resource group}/providers/Microsoft.EventHub/namespaces/{Event Hub namespace}/authorizationrules/{authorization rule}",
-          "assignPermissions": true
-        }
-      },
-      "eventHubName": {
-        "type": "String",
-        "metadata": {
-          "displayName": "EventHub name",
-          "description": "The EventHub name to stream activity logs to",
-          "assignPermissions": true
-        }
-      },
+      },      
       "metricsEnabled": {
         "type": "String",
         "defaultValue": "False",
@@ -111,10 +95,6 @@
               {
                 "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
                 "equals": "[parameters('metricsEnabled')]"
-              },
-              {
-                "field": "Microsoft.Insights/diagnosticSettings/eventHubName",
-                "matchInsensitively": "[parameters('eventHubName')]"
               }
             ]
           },
@@ -137,13 +117,7 @@
                   },
                   "storageAccountId": {
                     "type": "String"
-                  },
-                  "eventHubAuthorizationRuleId": {
-                    "type": "String"
-                  },
-                  "eventHubName": {
-                    "type": "String"
-                  },
+                  },                  
                   "metricsEnabled": {
                     "type": "String"
                   },
@@ -164,9 +138,7 @@
                     "dependsOn": [],
                     "properties": {
                       "workspaceId": "[parameters('workspaceId')]",
-                      "storageAccountId": "[parameters('storageAccountId')]",
-                      "eventHubAuthorizationRuleId": "[parameters('eventHubAuthorizationRuleId')]",
-                      "eventHubName": "[parameters('eventHubName')]",
+                      "storageAccountId": "[parameters('storageAccountId')]",                     
                       "metrics": [
                         {
                           "category": "AllMetrics",
@@ -218,13 +190,7 @@
                 },
                 "storageAccountId": {
                   "Value": "[parameters('storageAccountId')]"
-                },
-                "eventHubAuthorizationRuleId": {
-                  "Value": "[parameters('eventHubAuthorizationRuleId')]"
-                },
-                "eventHubName": {
-                  "Value": "[parameters('eventHubName')]"
-                },
+                },                
                 "metricsEnabled": {
                   "value": "[parameters('metricsEnabled')]"
                 },

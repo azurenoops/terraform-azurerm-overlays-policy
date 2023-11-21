@@ -2,12 +2,13 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "deploy_budget",
     "properties": {
+        "policyType": "Custom",
         "displayName": "Deploy a default budget on all subscriptions under the assigned scope",
         "description": "Deploy a default budget on all subscriptions under the assigned scope",
         "metadata": {
             "version": "1.0.0",
-            "category": "Budget",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
+            "category": "Cost Optimization",
+            "source": "https://github.com/azurenoops/",
             "cloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
@@ -24,6 +25,12 @@
                 ],
                 "metadata": {
                     "description": "Enable or disable the execution of the policy"
+                }
+            },
+            "location": {
+                "type": "String",
+                "metadata": {
+                    "description": "The location for the budget to be created"
                 }
             },
             "budgetName": {
@@ -129,7 +136,7 @@
                         "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                     ],
                     "deployment": {
-                        "location": "northeurope",
+                        "location": "[parameters('location')]",
                         "properties": {
                             "mode": "Incremental",
                             "parameters": {
