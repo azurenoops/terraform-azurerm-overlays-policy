@@ -3,7 +3,7 @@
 
 locals {
   # assignment_name will be trimmed if exceeds 24 characters
-  assignment_name = try(lower(substr(coalesce(var.assignment_name, var.initiative.name), 0, 24)), "")
+  assignment_name = try(lower(substr(coalesce(var.assignment_name, var.initiative.name), 0, 64)), "")
   display_name    = try(coalesce(var.assignment_display_name, var.initiative.display_name), "")
   description     = try(coalesce(var.assignment_description, var.initiative.description), "")
   metadata        = jsonencode(try(coalesce(var.assignment_metadata, jsondecode(var.initiative.metadata)), {}))
@@ -33,12 +33,16 @@ locals {
   assignment_location = length(local.identity_type) > 0 ? var.assignment_location : null
 
   # evaluate remediation scope from resource identifier
-  remediation_scope = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+   resource_discovery_mode = var.re_evaluate_compliance == true ? "ReEvaluateCompliance" : "ExistingNonCompliant"
+  remediation_scope       = try(coalesce(var.remediation_scope, var.assignment_scope), "")
+  remediate = try({
+    rg       = length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) < 1 ? length(split("/", local.remediation_scope)) == 5 ? 1 : 0 : 0    
+  })
 
   # retrieve definition references & create a remediation task for policies with DeployIfNotExists and Modify effects
   definitions = var.assignment_enforcement_mode == true && var.skip_remediation == false && length(local.identity_type) > 0 ? try(var.initiative.policy_definition_reference, []) : []
   definition_reference = try({
-    rg = (length(regexall("(\\/managementGroups\\/)", local.remediation_scope)) < 1 ? length(split("/", local.remediation_scope)) == 5 ? 1 : 0 : 0) ? local.definitions : []
+    rg = local.remediate.rg > 0 ? local.definitions : []
   })
   # evaluate outputs  
   remediation_tasks = try(

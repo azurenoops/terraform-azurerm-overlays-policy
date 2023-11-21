@@ -27,6 +27,9 @@
                     "description": "Enable or disable the execution of the policy"
                 }
             },
+            "location": {
+                "type": "String"
+            },
             "pricingTier": {
                 "type": "String",
                 "defaultValue": "Standard",
@@ -64,7 +67,7 @@
                         ]
                     },
                     "deployment": {
-                        "location": "uksouth",
+                        "location": "[parameters('location')]",
                         "properties": {
                             "mode": "Incremental",
                             "parameters": {

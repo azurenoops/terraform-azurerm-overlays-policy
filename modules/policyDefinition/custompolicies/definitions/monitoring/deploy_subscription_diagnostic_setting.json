@@ -35,6 +35,9 @@
                     "description": "The diagnostic settings profile name"
                 }
             },
+            "location": {
+                "type": "String"
+            },
             "workspaceId": {
                 "type": "String",
                 "metadata": {
@@ -95,6 +98,9 @@
                                 "contentVersion": "1.0.0.0",
                                 "parameters": {
                                     "profileName": {
+                                        "type": "String"
+                                    },
+                                    "location": {
                                         "type": "String"
                                     },
                                     "workspaceId": {
@@ -170,7 +176,7 @@
                                 }
                             }
                         },
-                        "location": "uksouth"
+                        "location": "[parameters('location')]"
                     },
                     "deploymentScope": "subscription"
                 }
