@@ -52,7 +52,7 @@ variable "initiative_version" {
 
 variable "member_definitions" {
   type        = any
-  description = "Policy Defenition resource nodes that will be members of this initiative"
+  description = "Policy Definition resource nodes that will be members of this initiative"
 }
 
 variable "initiative_metadata" {
