@@ -1,13 +1,13 @@
 {
-    "name": "deploy_diagnostics_bastion",
+    "name": "deploy_diagnostics_function",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,
     "properties": {
       "policyType": "Custom",
       "mode": "Indexed",
-      "displayName": "Deploy Diagnostic Settings for Azure Bastion to Log Analytics workspace",
-      "description": "Deploys the diagnostic settings for Azure Bastion to stream to a Log Analytics workspace when any Azure Bastion which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
+      "displayName": "Deploy Diagnostic Settings for Azure Function App to Log Analytics workspace",
+      "description": "Deploys the diagnostic settings for Azure Function App to stream to a Log Analytics workspace when any function app which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
       "metadata": {
         "version": "1.1.0",
         "category": "Monitoring",
@@ -73,8 +73,16 @@
       },
       "policyRule": {
         "if": {
-          "field": "type",
-          "equals": "Microsoft.Network/bastionHosts"
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Web/sites"
+            },
+            {
+              "value": "[[field('kind')]",
+              "contains": "functionapp"
+            }
+          ]
         },
         "then": {
           "effect": "[[parameters('effect')]",
@@ -130,7 +138,7 @@
                   "variables": {},
                   "resources": [
                     {
-                      "type": "Microsoft.Network/bastionHosts/providers/diagnosticSettings",
+                      "type": "Microsoft.Web/sites/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
                       "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                       "location": "[[parameters('location')]",
@@ -150,7 +158,7 @@
                         ],
                         "logs": [
                           {
-                            "category": "BastionAuditLogs",
+                            "category": "FunctionAppLogs",
                             "enabled": "[[parameters('logsEnabled')]"
                           }
                         ]

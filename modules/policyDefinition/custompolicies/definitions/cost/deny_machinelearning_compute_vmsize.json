@@ -8,9 +8,10 @@
         "metadata": {
             "version": "1.0.0",
             "category": "Budget",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
-                "AzureCloud"
+            "source": "https://github.com/azurenoops/",
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
             ]
         },
         "parameters": {

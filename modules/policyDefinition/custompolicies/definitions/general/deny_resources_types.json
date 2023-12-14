@@ -7,10 +7,10 @@
         "metadata": {
             "version": "1.0.0",
             "category": "General",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
-                "AzureCloud",
-                "AzureUSGovernment"
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
+              "AzureCloud",          
+              "AzureUSGovernment"
             ]
         },
         "parameters": {
@@ -20,10 +20,7 @@
                     "description": "The list of resource types that cannot be deployed.",
                     "displayName": "Disallowed resources",
                     "strongType": "resourceTypes"
-                },
-                "defaultValue": [
-                    ""
-                ]
+                }                
             },
             "effect": {
                 "type": "String",

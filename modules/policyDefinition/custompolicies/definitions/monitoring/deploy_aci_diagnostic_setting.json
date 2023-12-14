@@ -1,21 +1,21 @@
 {
-  "name": "deploy_diagnostics_loadBalancer",
+  "name": "deploy_diagnostics_ACI",
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
   "scope": null,
   "properties": {
     "policyType": "Custom",
     "mode": "Indexed",
-    "displayName": "Deploy Diagnostic Settings for Load Balancer to Log Analytics workspace",
-    "description": "Deploys the diagnostic settings for Load Balancer to stream to a Log Analytics workspace when any Load Balancer which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
+    "displayName": "Deploy Diagnostic Settings for Container Instances to Log Analytics workspace",
+    "description": "Deploys the diagnostic settings for Container Instances to stream to a Log Analytics workspace when any ACR which is missing this diagnostic settings is created or updated. The Policy willset the diagnostic with all metrics enabled.",
     "metadata": {
       "version": "1.1.0",
       "category": "Monitoring",
       "source": "https://github.com/AzureNoOps/",
-      "anoaCloudEnvironments": [
-        "AzureCloud",          
-        "AzureUSGovernment"
-      ]
+        "anoaCloudEnvironments": [
+          "AzureCloud",          
+          "AzureUSGovernment"
+        ]
     },
     "parameters": {
       "logAnalytics": {
@@ -57,24 +57,12 @@
           "displayName": "Enable metrics",
           "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
         }
-      },
-      "logsEnabled": {
-        "type": "String",
-        "defaultValue": "True",
-        "allowedValues": [
-          "True",
-          "False"
-        ],
-        "metadata": {
-          "displayName": "Enable logs",
-          "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
-        }
       }
     },
     "policyRule": {
       "if": {
         "field": "type",
-        "equals": "Microsoft.Network/loadBalancers"
+        "equals": "Microsoft.ContainerInstance/containerGroups"
       },
       "then": {
         "effect": "[[parameters('effect')]",
@@ -83,10 +71,6 @@
           "name": "[[parameters('profileName')]",
           "existenceCondition": {
             "allOf": [
-              {
-                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                "equals": "true"
-              },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
                 "equals": "true"
@@ -122,15 +106,12 @@
                   },
                   "metricsEnabled": {
                     "type": "String"
-                  },
-                  "logsEnabled": {
-                    "type": "String"
                   }
                 },
                 "variables": {},
                 "resources": [
                   {
-                    "type": "Microsoft.Network/loadBalancers/providers/diagnosticSettings",
+                    "type": "Microsoft.ContainerInstance/containerGroups/providers/diagnosticSettings",
                     "apiVersion": "2017-05-01-preview",
                     "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                     "location": "[[parameters('location')]",
@@ -140,24 +121,15 @@
                       "metrics": [
                         {
                           "category": "AllMetrics",
-                          "timeGrain": null,
                           "enabled": "[[parameters('metricsEnabled')]",
                           "retentionPolicy": {
-                            "enabled": false,
-                            "days": 0
-                          }
+                            "days": 0,
+                            "enabled": false
+                          },
+                          "timeGrain": null
                         }
                       ],
-                      "logs": [
-                        {
-                          "category": "LoadBalancerAlertEvent",
-                          "enabled": "[[parameters('logsEnabled')]"
-                        },
-                        {
-                          "category": "LoadBalancerProbeHealthStatus",
-                          "enabled": "[[parameters('logsEnabled')]"
-                        }
-                      ]
+                      "logs": []
                     }
                   }
                 ],
@@ -178,9 +150,6 @@
                 },
                 "metricsEnabled": {
                   "value": "[[parameters('metricsEnabled')]"
-                },
-                "logsEnabled": {
-                  "value": "[[parameters('logsEnabled')]"
                 }
               }
             }

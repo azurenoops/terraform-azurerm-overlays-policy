@@ -4,7 +4,7 @@
     "properties": {
         "displayName": "Deploy Diagnostic Settings for Subscriptions to a Log Analytics workspace",
         "description": "Deploys the diagnostic settings for Subscriptions to stream to a regional Log Analytics workspace when any Subscription which is missing this diagnostic settings is created or updated.",
-          "metadata": {
+        "metadata": {
             "version": "1.0.0",
             "category": "Monitoring",
             "source": "https://github.com/Azure/NoOpsAccelerator/",
@@ -54,7 +54,6 @@
                     "assignPermissions": true
                 }
             },
-         
             "logsEnabled": {
                 "type": "String",
                 "metadata": {
@@ -108,7 +107,7 @@
                                     },
                                     "storageAccountId": {
                                         "type": "String"
-                                    },                                    
+                                    },
                                     "logsEnabled": {
                                         "type": "String"
                                     }

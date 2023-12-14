@@ -3,13 +3,14 @@
     "name": "deploy_budget",
     "properties": {
         "policyType": "Custom",
+        "mode": "All",
         "displayName": "Deploy a default budget on all subscriptions under the assigned scope",
         "description": "Deploy a default budget on all subscriptions under the assigned scope",
         "metadata": {
             "version": "1.0.0",
             "category": "Cost Optimization",
             "source": "https://github.com/azurenoops/",
-            "cloudEnvironments": [
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]

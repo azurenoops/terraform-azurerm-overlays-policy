@@ -1,21 +1,21 @@
 {
-    "name": "deploy_diagnostics_bastion",
+    "name": "deploy_diagnostics_website",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,
     "properties": {
       "policyType": "Custom",
       "mode": "Indexed",
-      "displayName": "Deploy Diagnostic Settings for Azure Bastion to Log Analytics workspace",
-      "description": "Deploys the diagnostic settings for Azure Bastion to stream to a Log Analytics workspace when any Azure Bastion which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
+      "displayName": "Deploy Diagnostic Settings for App Service to Log Analytics workspace",
+      "description": "Deploys the diagnostic settings for Web App to stream to a Log Analytics workspace when any Web App which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
       "metadata": {
-        "version": "1.1.0",
+        "version": "1.2.0",
         "category": "Monitoring",
         "source": "https://github.com/AzureNoOps/",
-        "anoaCloudEnvironments": [
-          "AzureCloud",          
+      "anoaCloudEnvironments": [
+          "AzureCloud",
           "AzureUSGovernment"
-        ]
+      ]
       },
       "parameters": {
         "logAnalytics": {
@@ -73,8 +73,16 @@
       },
       "policyRule": {
         "if": {
-          "field": "type",
-          "equals": "Microsoft.Network/bastionHosts"
+          "allOf": [
+            {
+              "field": "type",
+              "equals": "Microsoft.Web/sites"
+            },
+            {
+              "value": "[[field('kind')]",
+              "notContains": "functionapp"
+            }
+          ]
         },
         "then": {
           "effect": "[[parameters('effect')]",
@@ -85,11 +93,11 @@
               "allOf": [
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                  "equals": "true"
+                  "equals": "[[parameters('logsEnabled')]"
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                  "equals": "true"
+                  "equals": "[[parameters('metricsEnabled')]"
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
@@ -125,12 +133,78 @@
                     },
                     "logsEnabled": {
                       "type": "String"
+                    },
+                    "serverFarmId": {
+                      "type": "String"
                     }
                   },
-                  "variables": {},
+                  "variables": {
+                    "logs": {
+                      "premiumTierLogs": [
+                        {
+                          "category": "AppServiceAntivirusScanAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceHTTPLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceConsoleLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceAppLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceFileAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceIPSecAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServicePlatformLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        }
+                      ],
+                      "otherTierLogs": [                                
+                        {
+                          "category": "AppServiceHTTPLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceConsoleLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceAppLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServiceIPSecAuditLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        },
+                        {
+                          "category": "AppServicePlatformLogs",
+                          "enabled": "[[parameters('logsEnabled')]"
+                        }
+                      ]
+                    }
+                  },
                   "resources": [
                     {
-                      "type": "Microsoft.Network/bastionHosts/providers/diagnosticSettings",
+                      "type": "Microsoft.Web/sites/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
                       "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                       "location": "[[parameters('location')]",
@@ -148,16 +222,16 @@
                             "timeGrain": null
                           }
                         ],
-                        "logs": [
-                          {
-                            "category": "BastionAuditLogs",
-                            "enabled": "[[parameters('logsEnabled')]"
-                          }
-                        ]
+                        "logs": "[[if(startsWith(reference(parameters('serverFarmId'), '2021-03-01', 'Full').sku.tier, 'Premium'), variables('logs').premiumTierLogs, variables('logs').otherTierLogs)]"
                       }
                     }
                   ],
-                  "outputs": {}
+                  "outputs": {
+                    "policy": {
+                      "type": "string",
+                      "value": "[[concat(parameters('logAnalytics'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
+                    }
+                  }
                 },
                 "parameters": {
                   "logAnalytics": {
@@ -177,6 +251,9 @@
                   },
                   "logsEnabled": {
                     "value": "[[parameters('logsEnabled')]"
+                  },
+                  "serverFarmId": {
+                    "value": "[[field('Microsoft.Web/sites/serverFarmId')]"
                   }
                 }
               }
