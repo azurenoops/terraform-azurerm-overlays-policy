@@ -8,8 +8,8 @@
     "metadata": {
       "version": "2.0.0",
       "category": "Network",
-      "source": "https://github.com/Azure/NoOpsAccelerator/",
-      "cloudEnvironments": [
+      "source": "https://github.com/AzureNoOps/",
+      "anoaCloudEnvironments": [
         "AzureCloud",
         "AzureUSGovernment"
       ]

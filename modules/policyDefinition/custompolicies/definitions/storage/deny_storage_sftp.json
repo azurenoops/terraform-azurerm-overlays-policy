@@ -1,9 +1,13 @@
 {
+    "name": "deny_storage_sftp",
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "storage_enforce_https",
+    "apiVersion": "2021-06-01",
+    "scope": null,
     "properties": {
-        "displayName": "Storage Accounts should enforce HTTPS traffic only",
-        "description": "Enforces HTTPS traffic only for Storage Accounts. For storage accounts created before version 2019-04-01, this policy will not take effect.",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "displayName": "Storage Accounts with SFTP enabled should be denied",
+        "description": "This policy denies the creation of Storage Accounts with SFTP enabled for Blob Storage.",
         "metadata": {
             "version": "1.0.0",
             "category": "Storage",
@@ -36,29 +40,13 @@
                         "equals": "Microsoft.Storage/storageAccounts"
                     },
                     {
-                        "anyOf": [
-                            {
-                                "allOf": [
-                                    {
-                                        "value": "[requestContext().apiVersion]",
-                                        "less": "2019-04-01"
-                                    },
-                                    {
-                                        "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
-                                        "exists": "false"
-                                    }
-                                ]
-                            },
-                            {
-                                "field": "Microsoft.Storage/storageAccounts/supportsHttpsTrafficOnly",
-                                "equals": "false"
-                            }
-                        ]
+                        "field": "Microsoft.Storage/storageAccounts/isSftpEnabled",
+                        "equals": "true"
                     }
                 ]
             },
             "then": {
-                "effect": "[parameters('effect')]"
+                "effect": "[[parameters('effect')]"
             }
         }
     }

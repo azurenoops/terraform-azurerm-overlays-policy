@@ -7,11 +7,12 @@
       "metadata": {
             "version": "1.0.0",
             "category": "App Service",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
-                "AzureCloud",
-                "AzureUSGovernment"
-            ]
+            "source": "https://github.com/AzureNoOps/",
+"anoaCloudEnvironments": [
+          "AzureCloud",          
+          "AzureUSGovernment"
+        ]
+
         },
         "parameters": {
             "effect": {

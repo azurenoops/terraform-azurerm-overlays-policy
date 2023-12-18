@@ -12,11 +12,11 @@
             "deprecated": false,
             "version": "1.0.0",
             "category": "Monitoring",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
-                "AzureCloud",
-                "AzureUSGovernment"
-            ]
+            "source": "https://github.com/AzureNoOps/",
+        "anoaCloudEnvironments": [
+          "AzureCloud",          
+          "AzureUSGovernment"
+        ]
         },
         "parameters": {},
         "policyRule": {

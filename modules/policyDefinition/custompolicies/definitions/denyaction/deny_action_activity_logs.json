@@ -9,11 +9,11 @@
         "displayName": "DenyAction implementation on Activity Logs",
         "description": "This is a DenyAction implementation policy on Activity Logs.",
         "metadata": {
-            "deprecated": false,            
+            "deprecated": false,
             "version": "1.0.0",
             "category": "Monitoring",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]
