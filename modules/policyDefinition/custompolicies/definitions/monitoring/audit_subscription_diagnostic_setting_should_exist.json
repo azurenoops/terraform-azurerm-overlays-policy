@@ -8,10 +8,10 @@
             "version": "1.0.0",
             "category": "Monitoring",
             "source": "https://github.com/AzureNoOps/",
-        "anoaCloudEnvironments": [
-          "AzureCloud",          
-          "AzureUSGovernment"
-        ]
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {
             "effect": {

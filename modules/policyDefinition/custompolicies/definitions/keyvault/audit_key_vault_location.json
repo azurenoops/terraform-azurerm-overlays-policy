@@ -9,11 +9,11 @@
         "metadata": {
             "version": "1.0.0",
             "category": "Key Vault",
-            "source": "https://github.com/azurenoops/","anoaCloudEnvironments": [
-          "AzureCloud",          
-          "AzureUSGovernment"
-        ]
-
+            "source": "https://github.com/azurenoops/",
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {},
         "policyRule": {
