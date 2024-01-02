@@ -312,6 +312,7 @@ deploy_webapp_diagnostic_setting | Monitoring | This policy deploys diagnostic s
 | deploy_sql_auditingsettings | SQL | This policy deploys SQL auditing settings. |
 | deny_sql_mintls | SQL | This policy denies SQL minimum TLS version. |
 | deploy_sql_security_alert_policies | SQL | This policy deploys SQL security alert policies. |
+| deploy_sql_vulnerability_assessments | SQL | This policy deploys SQL vulnerability assessments. |
 
 ### Storage
 
