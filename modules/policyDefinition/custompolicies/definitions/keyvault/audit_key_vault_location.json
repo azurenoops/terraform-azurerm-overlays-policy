@@ -10,7 +10,7 @@
             "version": "1.0.0",
             "category": "Key Vault",
             "source": "https://github.com/azurenoops/",
-            "cloudEnvironments": [
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]

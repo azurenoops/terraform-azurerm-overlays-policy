@@ -7,8 +7,8 @@
         "metadata": {
             "version": "1.0.0",
             "category": "Storage",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]

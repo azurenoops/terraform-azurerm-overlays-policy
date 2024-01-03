@@ -1,15 +1,18 @@
 {
+    "name": "deploy_DDoS_protection",
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "deploy_ddosprotection",
+    "apiVersion": "2021-06-01",
+    "scope": null,
     "properties": {
+        "policyType": "Custom",
         "mode": "All",
         "displayName": "Deploy an Azure DDoS Network Protection",
         "description": "Deploys an Azure DDoS Network Protection",
         "metadata": {
             "version": "1.0.1",
             "category": "Network",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]
@@ -60,13 +63,13 @@
                 ]
             },
             "then": {
-                "effect": "[parameters('effect')]",
+                "effect": "[[parameters('effect')]",
                 "details": {
                     "type": "Microsoft.Network/ddosProtectionPlans",
                     "deploymentScope": "subscription",
                     "existenceScope": "resourceGroup",
-                    "resourceGroupName": "[parameters('rgName')]",
-                    "name": "[parameters('ddosName')]",
+                    "resourceGroupName": "[[parameters('rgName')]",
+                    "name": "[[parameters('ddosName')]",
                     "roleDefinitionIds": [
                         "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
                     ],
@@ -76,13 +79,13 @@
                             "mode": "Incremental",
                             "parameters": {
                                 "rgName": {
-                                    "value": "[parameters('rgName')]"
+                                    "value": "[[parameters('rgName')]"
                                 },
                                 "ddosname": {
-                                    "value": "[parameters('ddosname')]"
+                                    "value": "[[parameters('ddosname')]"
                                 },
                                 "ddosregion": {
-                                    "value": "[parameters('ddosRegion')]"
+                                    "value": "[[parameters('ddosRegion')]"
                                 }
                             },
                             "template": {
@@ -103,17 +106,17 @@
                                     {
                                         "type": "Microsoft.Resources/resourceGroups",
                                         "apiVersion": "2018-05-01",
-                                        "name": "[parameters('rgName')]",
-                                        "location": "[deployment().location]",
+                                        "name": "[[parameters('rgName')]",
+                                        "location": "[[deployment().location]",
                                         "properties": {}
                                     },
                                     {
                                         "type": "Microsoft.Resources/deployments",
                                         "apiVersion": "2018-05-01",
                                         "name": "ddosprotection",
-                                        "resourceGroup": "[parameters('rgName')]",
+                                        "resourceGroup": "[[parameters('rgName')]",
                                         "dependsOn": [
-                                            "[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
+                                            "[[resourceId('Microsoft.Resources/resourceGroups/', parameters('rgName'))]"
                                         ],
                                         "properties": {
                                             "mode": "Incremental",
@@ -125,8 +128,8 @@
                                                     {
                                                         "type": "Microsoft.Network/ddosProtectionPlans",
                                                         "apiVersion": "2019-12-01",
-                                                        "name": "[parameters('ddosName')]",
-                                                        "location": "[parameters('ddosRegion')]",
+                                                        "name": "[[parameters('ddosName')]",
+                                                        "location": "[[parameters('ddosRegion')]",
                                                         "properties": {}
                                                     }
                                                 ],

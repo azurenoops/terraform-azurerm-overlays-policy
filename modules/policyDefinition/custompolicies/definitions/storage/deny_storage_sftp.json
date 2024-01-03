@@ -1,15 +1,18 @@
 {
+    "name": "deny_storage_sftp",
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "deny_publicendpoint_mariadb",
+    "apiVersion": "2021-06-01",
+    "scope": null,
     "properties": {
+        "policyType": "Custom",
         "mode": "Indexed",
-        "displayName": "Public network access should be disabled for MariaDB",
-        "description": "This policy denies the creation of Maria DB accounts with exposed public endpoints",
+        "displayName": "Storage Accounts with SFTP enabled should be denied",
+        "description": "This policy denies the creation of Storage Accounts with SFTP enabled for Blob Storage.",
         "metadata": {
             "version": "1.0.0",
-            "category": "SQL",
-            "source": "https://github.com/Azure/NoOpsAccelerator/",
-            "cloudEnvironments": [
+            "category": "Storage",
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
                 "AzureCloud",
                 "AzureUSGovernment"
             ]
@@ -17,15 +20,15 @@
         "parameters": {
             "effect": {
                 "type": "String",
+                "defaultValue": "Deny",
                 "allowedValues": [
                     "Audit",
                     "Deny",
                     "Disabled"
                 ],
-                "defaultValue": "Deny",
                 "metadata": {
                     "displayName": "Effect",
-                    "description": "Enable or disable the execution of the policy"
+                    "description": "The effect determines what happens when the policy rule is evaluated to match"
                 }
             }
         },
@@ -34,16 +37,16 @@
                 "allOf": [
                     {
                         "field": "type",
-                        "equals": "Microsoft.DBforMariaDB/servers"
+                        "equals": "Microsoft.Storage/storageAccounts"
                     },
                     {
-                        "field": "Microsoft.DBforMariaDB/servers/publicNetworkAccess",
-                        "notequals": "Disabled"
+                        "field": "Microsoft.Storage/storageAccounts/isSftpEnabled",
+                        "equals": "true"
                     }
                 ]
             },
             "then": {
-                "effect": "[parameters('effect')]"
+                "effect": "[[parameters('effect')]"
             }
         }
     }
