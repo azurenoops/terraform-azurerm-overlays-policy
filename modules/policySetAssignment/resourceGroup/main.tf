@@ -75,7 +75,7 @@ resource "azurerm_resource_group_policy_remediation" "rem" {
   resource_group_id              = local.remediation_scope
   policy_assignment_id           = azurerm_resource_group_policy_assignment.set.id
   policy_definition_reference_id = each.key
-  resource_discovery_mode        = var.resource_discovery_mode
+  resource_discovery_mode        = local.resource_discovery_mode
   location_filters               = var.location_filters
   failure_percentage             = var.failure_percentage
   parallel_deployments           = var.parallel_deployments
