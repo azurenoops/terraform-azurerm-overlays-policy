@@ -57,7 +57,7 @@
                             {
                                 "allOf": [
                                     {
-                                        "value": "[[requestContext().apiVersion]",
+                                        "value": "[requestContext().apiVersion]",
                                         "less": "2019-04-01"
                                     },
                                     {
@@ -72,7 +72,7 @@
                             },
                             {
                                 "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
-                                "notequals": "[[parameters('minimumTlsVersion')]"
+                                "notequals": "[parameters('minimumTlsVersion')]"
                             },
                             {
                                 "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
@@ -83,7 +83,7 @@
                 ]
             },
             "then": {
-                "effect": "[[parameters('effect')]"
+                "effect": "[parameters('effect')]"
             }
         }
     }

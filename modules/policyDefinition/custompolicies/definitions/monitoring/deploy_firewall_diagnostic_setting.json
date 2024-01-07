@@ -89,10 +89,10 @@
           "equals": "Microsoft.Network/azureFirewalls"
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Insights/diagnosticSettings",
-            "name": "[[parameters('profileName')]",
+            "name": "[parameters('profileName')]",
             "existenceCondition": {
               "allOf": [
                 {
@@ -105,7 +105,7 @@
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                  "equals": "[[parameters('logAnalytics')]"
+                  "equals": "[parameters('logAnalytics')]"
                 }
               ]
             },
@@ -147,16 +147,16 @@
                     {
                       "type": "Microsoft.Network/azureFirewalls/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
-                      "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                      "location": "[[parameters('location')]",
+                      "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                      "location": "[parameters('location')]",
                       "dependsOn": [],
                       "properties": {
-                        "workspaceId": "[[parameters('logAnalytics')]",
-                        "logAnalyticsDestinationType": "[[parameters('logAnalyticsDestinationType')]",
+                        "workspaceId": "[parameters('logAnalytics')]",
+                        "logAnalyticsDestinationType": "[parameters('logAnalyticsDestinationType')]",
                         "metrics": [
                           {
                             "category": "AllMetrics",
-                            "enabled": "[[parameters('metricsEnabled')]",
+                            "enabled": "[parameters('metricsEnabled')]",
                             "retentionPolicy": {
                               "days": 0,
                               "enabled": false
@@ -167,63 +167,63 @@
                         "logs": [
                           {
                             "category": "AzureFirewallApplicationRule",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AzureFirewallNetworkRule",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AzureFirewallDnsProxy",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWNetworkRule",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWApplicationRule",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWNatRule",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWThreatIntel",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWIdpsSignature",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWDnsQuery",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWFqdnResolveFailure",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWApplicationRuleAggregation",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWNetworkRuleAggregation",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWNatRuleAggregation",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWFatFlow",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           },
                           {
                             "category": "AZFWFlowTrace",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           }
                         ]
                       }
@@ -233,25 +233,25 @@
                 },
                 "parameters": {
                   "logAnalytics": {
-                    "value": "[[parameters('logAnalytics')]"
+                    "value": "[parameters('logAnalytics')]"
                   },
                   "logAnalyticsDestinationType": {
-                    "value": "[[parameters('logAnalyticsDestinationType')]"
+                    "value": "[parameters('logAnalyticsDestinationType')]"
                   },
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   },
                   "resourceName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   },
                   "profileName": {
-                    "value": "[[parameters('profileName')]"
+                    "value": "[parameters('profileName')]"
                   },
                   "metricsEnabled": {
-                    "value": "[[parameters('metricsEnabled')]"
+                    "value": "[parameters('metricsEnabled')]"
                   },
                   "logsEnabled": {
-                    "value": "[[parameters('logsEnabled')]"
+                    "value": "[parameters('logsEnabled')]"
                   }
                 }
               }

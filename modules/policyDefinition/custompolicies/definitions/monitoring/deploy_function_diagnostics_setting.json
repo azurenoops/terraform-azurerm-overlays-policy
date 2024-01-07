@@ -85,10 +85,10 @@
           ]
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Insights/diagnosticSettings",
-            "name": "[[parameters('profileName')]",
+            "name": "[parameters('profileName')]",
             "existenceCondition": {
               "allOf": [
                 {
@@ -101,7 +101,7 @@
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                  "equals": "[[parameters('logAnalytics')]"
+                  "equals": "[parameters('logAnalytics')]"
                 }
               ]
             },
@@ -140,15 +140,15 @@
                     {
                       "type": "Microsoft.Web/sites/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
-                      "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                      "location": "[[parameters('location')]",
+                      "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                      "location": "[parameters('location')]",
                       "dependsOn": [],
                       "properties": {
-                        "workspaceId": "[[parameters('logAnalytics')]",
+                        "workspaceId": "[parameters('logAnalytics')]",
                         "metrics": [
                           {
                             "category": "AllMetrics",
-                            "enabled": "[[parameters('metricsEnabled')]",
+                            "enabled": "[parameters('metricsEnabled')]",
                             "retentionPolicy": {
                               "days": 0,
                               "enabled": false
@@ -159,7 +159,7 @@
                         "logs": [
                           {
                             "category": "FunctionAppLogs",
-                            "enabled": "[[parameters('logsEnabled')]"
+                            "enabled": "[parameters('logsEnabled')]"
                           }
                         ]
                       }
@@ -169,22 +169,22 @@
                 },
                 "parameters": {
                   "logAnalytics": {
-                    "value": "[[parameters('logAnalytics')]"
+                    "value": "[parameters('logAnalytics')]"
                   },
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   },
                   "resourceName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   },
                   "profileName": {
-                    "value": "[[parameters('profileName')]"
+                    "value": "[parameters('profileName')]"
                   },
                   "metricsEnabled": {
-                    "value": "[[parameters('metricsEnabled')]"
+                    "value": "[parameters('metricsEnabled')]"
                   },
                   "logsEnabled": {
-                    "value": "[[parameters('logsEnabled')]"
+                    "value": "[parameters('logsEnabled')]"
                   }
                 }
               }

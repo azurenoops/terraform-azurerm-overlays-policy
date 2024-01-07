@@ -53,19 +53,19 @@
             },
             {
               "field": "Microsoft.Sql/servers/minimalTlsVersion",
-              "notequals": "[[parameters('minimalTlsVersion')]"
+              "notequals": "[parameters('minimalTlsVersion')]"
             }
           ]
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Sql/servers",
             "existenceCondition": {
               "allOf": [
                 {
                   "field": "Microsoft.Sql/servers/minimalTlsVersion",
-                  "equals": "[[parameters('minimalTlsVersion')]"
+                  "equals": "[parameters('minimalTlsVersion')]"
                 }
               ]
             },
@@ -95,10 +95,10 @@
                     {
                       "type": "Microsoft.Sql/servers",
                       "apiVersion": "2019-06-01-preview",
-                      "name": "[[concat(parameters('resourceName'))]",
-                      "location": "[[parameters('location')]",
+                      "name": "[concat(parameters('resourceName'))]",
+                      "location": "[parameters('location')]",
                       "properties": {
-                        "minimalTlsVersion": "[[parameters('minimalTlsVersion')]"
+                        "minimalTlsVersion": "[parameters('minimalTlsVersion')]"
                       }
                     }
                   ],
@@ -106,13 +106,13 @@
                 },
                 "parameters": {
                   "resourceName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   },
                   "minimalTlsVersion": {
-                    "value": "[[parameters('minimalTlsVersion')]"
+                    "value": "[parameters('minimalTlsVersion')]"
                   },
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   }
                 }
               }

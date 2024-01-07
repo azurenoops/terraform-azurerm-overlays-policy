@@ -87,13 +87,13 @@
                     "type": "Microsoft.Insights/activityLogAlerts",
                     "name": "ActivityKeyVaultDelete",
                     "existenceScope": "resourcegroup",
-                    "resourceGroupName": "[[parameters('alertResourceGroupName')]",
+                    "resourceGroupName": "[parameters('alertResourceGroupName')]",
                     "deploymentScope": "subscription",
                     "existenceCondition": {
                         "allOf": [
                             {
                                 "field": "Microsoft.Insights/ActivityLogAlerts/enabled",
-                                "equals": "[[parameters('enabled')]"
+                                "equals": "[parameters('enabled')]"
                             },
                             {
                                 "count": {
@@ -157,17 +157,17 @@
                                     {
                                         "type": "Microsoft.Resources/resourceGroups",
                                         "apiVersion": "2021-04-01",
-                                        "name": "[[parameters('alertResourceGroupName')]",
-                                        "location": "[[parameters('alertResourceGroupLocation')]",
-                                        "tags": "[[parameters('alertResourceGroupTags')]"
+                                        "name": "[parameters('alertResourceGroupName')]",
+                                        "location": "[parameters('alertResourceGroupLocation')]",
+                                        "tags": "[parameters('alertResourceGroupTags')]"
                                     },
                                     {
                                         "type": "Microsoft.Resources/deployments",
                                         "apiVersion": "2019-10-01",
                                         "name": "ActivityKeyVaultDelete",
-                                        "resourceGroup": "[[parameters('alertResourceGroupName')]",
+                                        "resourceGroup": "[parameters('alertResourceGroupName')]",
                                         "dependsOn": [
-                                            "[[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
+                                            "[concat('Microsoft.Resources/resourceGroups/', parameters('alertResourceGroupName'))]"
                                         ],
                                         "properties": {
                                             "mode": "Incremental",
@@ -194,9 +194,9 @@
                                                         },
                                                         "properties": {
                                                             "description": "Activity Log Key Vault Delete",
-                                                            "enabled": "[[parameters('enabled')]",
+                                                            "enabled": "[parameters('enabled')]",
                                                             "scopes": [
-                                                                "[[subscription().id]"
+                                                                "[subscription().id]"
                                                             ],
                                                             "condition": {
                                                                 "allOf": [
@@ -218,7 +218,7 @@
                                                             },
                                                             "parameters": {
                                                                 "enabled": {
-                                                                    "value": "[[parameters('enabled')]"
+                                                                    "value": "[parameters('enabled')]"
                                                                 }
                                                             }
                                                         }
@@ -227,10 +227,10 @@
                                             },
                                             "parameters": {
                                                 "enabled": {
-                                                    "value": "[[parameters('enabled')]"
+                                                    "value": "[parameters('enabled')]"
                                                 },
                                                 "alertResourceGroupName": {
-                                                    "value": "[[parameters('alertResourceGroupName')]"
+                                                    "value": "[parameters('alertResourceGroupName')]"
                                                 }
                                             }
                                         }
@@ -239,16 +239,16 @@
                             },
                             "parameters": {
                                 "enabled": {
-                                    "value": "[[parameters('enabled')]"
+                                    "value": "[parameters('enabled')]"
                                 },
                                 "alertResourceGroupName": {
-                                    "value": "[[parameters('alertResourceGroupName')]"
+                                    "value": "[parameters('alertResourceGroupName')]"
                                 },
                                 "alertResourceGroupTags": {
-                                    "value": "[[parameters('alertResourceGroupTags')]"
+                                    "value": "[parameters('alertResourceGroupTags')]"
                                 },
                                 "alertResourceGroupLocation": {
-                                    "value": "[[parameters('alertResourceGroupLocation')]"
+                                    "value": "[parameters('alertResourceGroupLocation')]"
                                 }
                             }
                         }

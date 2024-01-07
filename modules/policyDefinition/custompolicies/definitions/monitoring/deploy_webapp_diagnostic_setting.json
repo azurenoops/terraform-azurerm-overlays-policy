@@ -85,23 +85,23 @@
           ]
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Insights/diagnosticSettings",
-            "name": "[[parameters('profileName')]",
+            "name": "[parameters('profileName')]",
             "existenceCondition": {
               "allOf": [
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                  "equals": "[[parameters('logsEnabled')]"
+                  "equals": "[parameters('logsEnabled')]"
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                  "equals": "[[parameters('metricsEnabled')]"
+                  "equals": "[parameters('metricsEnabled')]"
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                  "equals": "[[parameters('logAnalytics')]"
+                  "equals": "[parameters('logAnalytics')]"
                 }
               ]
             },
@@ -143,61 +143,61 @@
                       "premiumTierLogs": [
                         {
                           "category": "AppServiceAntivirusScanAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceHTTPLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceConsoleLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceAppLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceFileAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceIPSecAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServicePlatformLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         }
                       ],
                       "otherTierLogs": [                                
                         {
                           "category": "AppServiceHTTPLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceConsoleLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceAppLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServiceIPSecAuditLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         },
                         {
                           "category": "AppServicePlatformLogs",
-                          "enabled": "[[parameters('logsEnabled')]"
+                          "enabled": "[parameters('logsEnabled')]"
                         }
                       ]
                     }
@@ -206,15 +206,15 @@
                     {
                       "type": "Microsoft.Web/sites/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
-                      "name": "[[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
-                      "location": "[[parameters('location')]",
+                      "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
+                      "location": "[parameters('location')]",
                       "dependsOn": [],
                       "properties": {
-                        "workspaceId": "[[parameters('logAnalytics')]",
+                        "workspaceId": "[parameters('logAnalytics')]",
                         "metrics": [
                           {
                             "category": "AllMetrics",
-                            "enabled": "[[parameters('metricsEnabled')]",
+                            "enabled": "[parameters('metricsEnabled')]",
                             "retentionPolicy": {
                               "days": 0,
                               "enabled": false
@@ -222,38 +222,38 @@
                             "timeGrain": null
                           }
                         ],
-                        "logs": "[[if(startsWith(reference(parameters('serverFarmId'), '2021-03-01', 'Full').sku.tier, 'Premium'), variables('logs').premiumTierLogs, variables('logs').otherTierLogs)]"
+                        "logs": "[if(startsWith(reference(parameters('serverFarmId'), '2021-03-01', 'Full').sku.tier, 'Premium'), variables('logs').premiumTierLogs, variables('logs').otherTierLogs)]"
                       }
                     }
                   ],
                   "outputs": {
                     "policy": {
                       "type": "string",
-                      "value": "[[concat(parameters('logAnalytics'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
+                      "value": "[concat(parameters('logAnalytics'), 'configured for diagnostic logs for ', ': ', parameters('resourceName'))]"
                     }
                   }
                 },
                 "parameters": {
                   "logAnalytics": {
-                    "value": "[[parameters('logAnalytics')]"
+                    "value": "[parameters('logAnalytics')]"
                   },
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   },
                   "resourceName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   },
                   "profileName": {
-                    "value": "[[parameters('profileName')]"
+                    "value": "[parameters('profileName')]"
                   },
                   "metricsEnabled": {
-                    "value": "[[parameters('metricsEnabled')]"
+                    "value": "[parameters('metricsEnabled')]"
                   },
                   "logsEnabled": {
-                    "value": "[[parameters('logsEnabled')]"
+                    "value": "[parameters('logsEnabled')]"
                   },
                   "serverFarmId": {
-                    "value": "[[field('Microsoft.Web/sites/serverFarmId')]"
+                    "value": "[field('Microsoft.Web/sites/serverFarmId')]"
                   }
                 }
               }

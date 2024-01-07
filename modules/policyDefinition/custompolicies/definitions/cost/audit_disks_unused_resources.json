@@ -1,8 +1,6 @@
 {
     "name": "Audit-Disks-UnusedResourcesCostOptimization",
-    "type": "Microsoft.Authorization/policyDefinitions",
-    "apiVersion": "2021-06-01",
-    "scope": null,
+    "type": "Microsoft.Authorization/policyDefinitions",    
     "properties": {
         "policyType": "Custom",
         "displayName": "Unused Disks driving cost should be avoided",
@@ -61,7 +59,7 @@
                 ]
             },
             "then": {
-                "effect": "[[parameters('effect')]"
+                "effect": "[parameters('effect')]"
             }
         }
     }
