@@ -41,12 +41,12 @@
             },
             {
               "field": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings/remoteVirtualNetwork.id",
-              "notcontains": "[[subscription().id]"
+              "notcontains": "[subscription().id]"
             }
           ]
         },
         "then": {
-          "effect": "[[parameters('effect')]"
+          "effect": "[parameters('effect')]"
         }
       }
     }

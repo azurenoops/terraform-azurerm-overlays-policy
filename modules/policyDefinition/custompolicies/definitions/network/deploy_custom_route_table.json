@@ -69,29 +69,29 @@
             },
             {
               "field": "location",
-              "equals": "[[parameters('vnetRegion')]"
+              "equals": "[parameters('vnetRegion')]"
             }
           ]
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Network/routeTables",
             "existenceCondition": {
               "allOf": [
                 {
                   "field": "name",
-                  "equals": "[[parameters('routeTableName')]"
+                  "equals": "[parameters('routeTableName')]"
                 },
                 {
                   "count": {
                     "field": "Microsoft.Network/routeTables/routes[*]",
                     "where": {
-                      "value": "[[concat(current('Microsoft.Network/routeTables/routes[*].addressPrefix'), ';', current('Microsoft.Network/routeTables/routes[*].nextHopType'), if(equals(toLower(current('Microsoft.Network/routeTables/routes[*].nextHopType')),'virtualappliance'), concat(';', current('Microsoft.Network/routeTables/routes[*].nextHopIpAddress')), ''))]",
-                      "in": "[[parameters('requiredRoutes')]"
+                      "value": "[concat(current('Microsoft.Network/routeTables/routes[*].addressPrefix'), ';', current('Microsoft.Network/routeTables/routes[*].nextHopType'), if(equals(toLower(current('Microsoft.Network/routeTables/routes[*].nextHopType')),'virtualappliance'), concat(';', current('Microsoft.Network/routeTables/routes[*].nextHopIpAddress')), ''))]",
+                      "in": "[parameters('requiredRoutes')]"
                     }
                   },
-                  "equals": "[[length(parameters('requiredRoutes'))]"
+                  "equals": "[length(parameters('requiredRoutes'))]"
                 }
               ]
             },
@@ -122,13 +122,13 @@
                     "copyLoop": [
                       {
                         "name": "routes",
-                        "count": "[[[length(parameters('requiredRoutes'))]",
+                        "count": "[length(parameters('requiredRoutes'))]",
                         "input": {
-                          "name": "[[[concat('route-',copyIndex('routes'))]",
+                          "name": "[concat('route-',copyIndex('routes'))]",
                           "properties": {
-                            "addressPrefix": "[[[split(parameters('requiredRoutes')[copyIndex('routes')], ';')[0]]",
-                            "nextHopType": "[[[split(parameters('requiredRoutes')[copyIndex('routes')], ';')[1]]",
-                            "nextHopIpAddress": "[[[if(equals(toLower(split(parameters('requiredRoutes')[copyIndex('routes')], ';')[1]),'virtualappliance'),split(parameters('requiredRoutes')[copyIndex('routes')], ';')[2], null())]"
+                            "addressPrefix": "[split(parameters('requiredRoutes')[copyIndex('routes')], ';')[0]]",
+                            "nextHopType": "[split(parameters('requiredRoutes')[copyIndex('routes')], ';')[1]]",
+                            "nextHopIpAddress": "[if(equals(toLower(split(parameters('requiredRoutes')[copyIndex('routes')], ';')[1]),'virtualappliance'),split(parameters('requiredRoutes')[copyIndex('routes')], ';')[2], null())]"
                           }
                         }
                       }
@@ -162,27 +162,27 @@
                             {
                               "type": "Microsoft.Network/routeTables",
                               "apiVersion": "2021-02-01",
-                              "name": "[[[parameters('routeTableName')]",
-                              "location": "[[[parameters('vnetRegion')]",
+                              "name": "[parameters('routeTableName')]",
+                              "location": "[parameters('vnetRegion')]",
                               "properties": {
-                                "disableBgpRoutePropagation": "[[[parameters('disableBgpPropagation')]",
-                                "copy": "[[variables('copyLoop')]"
+                                "disableBgpRoutePropagation": "[parameters('disableBgpPropagation')]",
+                                "copy": "[variables('copyLoop')]"
                               }
                             }
                           ]
                         },
                         "parameters": {
                           "routeTableName": {
-                            "value": "[[parameters('routeTableName')]"
+                            "value": "[parameters('routeTableName')]"
                           },
                           "vnetRegion": {
-                            "value": "[[parameters('vnetRegion')]"
+                            "value": "[parameters('vnetRegion')]"
                           },
                           "requiredRoutes": {
-                            "value": "[[parameters('requiredRoutes')]"
+                            "value": "[parameters('requiredRoutes')]"
                           },
                           "disableBgpPropagation": {
-                            "value": "[[parameters('disableBgpPropagation')]"
+                            "value": "[parameters('disableBgpPropagation')]"
                           }
                         }
                       }
@@ -191,16 +191,16 @@
                 },
                 "parameters": {
                   "routeTableName": {
-                    "value": "[[parameters('routeTableName')]"
+                    "value": "[parameters('routeTableName')]"
                   },
                   "vnetRegion": {
-                    "value": "[[parameters('vnetRegion')]"
+                    "value": "[parameters('vnetRegion')]"
                   },
                   "requiredRoutes": {
-                    "value": "[[parameters('requiredRoutes')]"
+                    "value": "[parameters('requiredRoutes')]"
                   },
                   "disableBgpPropagation": {
-                    "value": "[[parameters('disableBgpPropagation')]"
+                    "value": "[parameters('disableBgpPropagation')]"
                   }
                 }
               }

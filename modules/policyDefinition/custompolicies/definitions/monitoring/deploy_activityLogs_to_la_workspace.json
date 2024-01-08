@@ -58,7 +58,7 @@
                 "equals": "Microsoft.Resources/subscriptions"
             },
             "then": {
-                "effect": "[[parameters('effect')]",
+                "effect": "[parameters('effect')]",
                 "details": {
                     "type": "Microsoft.Insights/diagnosticSettings",
                     "deploymentScope": "subscription",
@@ -67,11 +67,11 @@
                         "allOf": [
                             {
                                 "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                                "equals": "[[parameters('logsEnabled')]"
+                                "equals": "[parameters('logsEnabled')]"
                             },
                             {
                                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
-                                "equals": "[[parameters('logAnalytics')]"
+                                "equals": "[parameters('logAnalytics')]"
                             }
                         ]
                     },
@@ -98,39 +98,39 @@
                                         "apiVersion": "2017-05-01-preview",
                                         "location": "Global",
                                         "properties": {
-                                            "workspaceId": "[[parameters('logAnalytics')]",
+                                            "workspaceId": "[parameters('logAnalytics')]",
                                             "logs": [
                                                 {
                                                     "category": "Administrative",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "Security",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "ServiceHealth",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "Alert",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "Recommendation",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "Policy",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "Autoscale",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 },
                                                 {
                                                     "category": "ResourceHealth",
-                                                    "enabled": "[[parameters('logsEnabled')]"
+                                                    "enabled": "[parameters('logsEnabled')]"
                                                 }
                                             ]
                                         }
@@ -140,10 +140,10 @@
                             },
                             "parameters": {
                                 "logAnalytics": {
-                                    "value": "[[parameters('logAnalytics')]"
+                                    "value": "[parameters('logAnalytics')]"
                                 },
                                 "logsEnabled": {
-                                    "value": "[[parameters('logsEnabled')]"
+                                    "value": "[parameters('logsEnabled')]"
                                 }
                             }
                         }

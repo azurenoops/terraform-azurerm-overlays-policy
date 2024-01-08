@@ -71,13 +71,13 @@
                                             },
                                             {
                                                 "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange",
-                                                "in": "[[parameters('ports')]"
+                                                "in": "[parameters('ports')]"
                                             },
                                             {
                                                 "count": {
-                                                    "value": "[[parameters('ports')]",
+                                                    "value": "[parameters('ports')]",
                                                     "where": {
-                                                        "value": "[[if(and(not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'))), contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'),'-')), and(lessOrEquals(int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))),int(current())),greaterOrEquals(int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))),int(current()))), 'false')]",
+                                                        "value": "[if(and(not(empty(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'))), contains(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'),'-')), and(lessOrEquals(int(first(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))),int(current())),greaterOrEquals(int(last(split(field('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRange'), '-'))),int(current()))), 'false')]",
                                                         "equals": "true"
                                                     }
                                                 },
@@ -85,13 +85,13 @@
                                             },
                                             {
                                                 "count": {
-                                                    "value": "[[parameters('ports')]",
+                                                    "value": "[parameters('ports')]",
                                                     "name": "ports",
                                                     "where": {
                                                         "count": {
                                                             "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
                                                             "where": {
-                                                                "value": "[[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'), '-'))),int(current('ports')))) , 'false')]",
+                                                                "value": "[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]'), '-'))),int(current('ports')))) , 'false')]",
                                                                 "equals": "true"
                                                             }
                                                         },
@@ -109,7 +109,7 @@
                                             {
                                                 "not": {
                                                     "field": "Microsoft.Network/networkSecurityGroups/securityRules/destinationPortRanges[*]",
-                                                    "notIn": "[[parameters('ports')]"
+                                                    "notIn": "[parameters('ports')]"
                                                 }
                                             }
                                         ]
@@ -169,14 +169,14 @@
                                                     },
                                                     {
                                                         "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange",
-                                                        "in": "[[parameters('ports')]"
+                                                        "in": "[parameters('ports')]"
                                                     },
                                                     {
                                                         "count": {
-                                                            "value": "[[parameters('ports')]",
+                                                            "value": "[parameters('ports')]",
                                                             "name": "ports",
                                                             "where": {
-                                                                "value": "[[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), '-'))),int(current('ports')))), 'false')]",
+                                                                "value": "[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRange'), '-'))),int(current('ports')))), 'false')]",
                                                                 "equals": "true"
                                                             }
                                                         },
@@ -184,13 +184,13 @@
                                                     },
                                                     {
                                                         "count": {
-                                                            "value": "[[parameters('ports')]",
+                                                            "value": "[parameters('ports')]",
                                                             "name": "ports",
                                                             "where": {
                                                                 "count": {
                                                                     "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
                                                                     "where": {
-                                                                        "value": "[[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'), '-'))),int(current('ports')))) , 'false')]",
+                                                                        "value": "[if(and(not(empty(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'))), contains(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'),'-')), and(lessOrEquals(int(first(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'), '-'))),int(current('ports'))),greaterOrEquals(int(last(split(current('Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]'), '-'))),int(current('ports')))) , 'false')]",
                                                                         "equals": "true"
                                                                     }
                                                                 },
@@ -208,7 +208,7 @@
                                                     {
                                                         "not": {
                                                             "field": "Microsoft.Network/networkSecurityGroups/securityRules[*].destinationPortRanges[*]",
-                                                            "notIn": "[[parameters('ports')]"
+                                                            "notIn": "[parameters('ports')]"
                                                         }
                                                     }
                                                 ]
@@ -247,7 +247,7 @@
                 ]
             },
             "then": {
-                "effect": "[[parameters('effect')]"
+                "effect": "[parameters('effect')]"
             }
         }
     }

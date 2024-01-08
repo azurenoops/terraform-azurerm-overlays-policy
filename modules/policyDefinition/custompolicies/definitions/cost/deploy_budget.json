@@ -28,12 +28,6 @@
                     "description": "Enable or disable the execution of the policy"
                 }
             },
-            "location": {
-                "type": "String",
-                "metadata": {
-                    "description": "The location for the budget to be created"
-                }
-            },
             "budgetName": {
                 "type": "String",
                 "defaultValue": "budget-set-by-policy",
@@ -137,7 +131,7 @@
                         "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
                     ],
                     "deployment": {
-                        "location": "[parameters('location')]",
+                        "location": "eastus",
                         "properties": {
                             "mode": "Incremental",
                             "parameters": {

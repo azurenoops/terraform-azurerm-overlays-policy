@@ -37,7 +37,7 @@
           "equals": "Microsoft.Sql/servers/databases"
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Sql/servers/databases/auditingSettings",
             "name": "default",
@@ -73,7 +73,7 @@
                   "variables": {},
                   "resources": [
                     {
-                      "name": "[[concat( parameters('sqlServerName'),'/',parameters('sqlServerDataBaseName'),'/default')]",
+                      "name": "[concat( parameters('sqlServerName'),'/',parameters('sqlServerDataBaseName'),'/default')]",
                       "type": "Microsoft.Sql/servers/databases/auditingSettings",
                       "apiVersion": "2017-03-01-preview",
                       "properties": {
@@ -103,13 +103,13 @@
                 },
                 "parameters": {
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   },
                   "sqlServerName": {
-                    "value": "[[first(split(field('fullname'),'/'))]"
+                    "value": "[first(split(field('fullname'),'/'))]"
                   },
                   "sqlServerDataBaseName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   }
                 }
               }

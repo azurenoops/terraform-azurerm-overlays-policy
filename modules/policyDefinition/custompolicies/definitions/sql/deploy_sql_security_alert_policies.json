@@ -44,7 +44,7 @@
           "equals": "Microsoft.Sql/servers/databases"
         },
         "then": {
-          "effect": "[[parameters('effect')]",
+          "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
             "existenceCondition": {
@@ -78,7 +78,7 @@
                   "variables": {},
                   "resources": [
                     {
-                      "name": "[[concat(parameters('sqlServerName'),'/',parameters('sqlServerDataBaseName'),'/default')]",
+                      "name": "[concat(parameters('sqlServerName'),'/',parameters('sqlServerDataBaseName'),'/default')]",
                       "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
                       "apiVersion": "2018-06-01-preview",
                       "properties": {
@@ -86,7 +86,7 @@
                         "disabledAlerts": [
                           ""
                         ],
-                        "emailAddresses": "[[parameters('emailAddresses')]",
+                        "emailAddresses": "[parameters('emailAddresses')]",
                         "emailAccountAdmins": true,
                         "storageEndpoint": null,
                         "storageAccountAccessKey": "",
@@ -98,16 +98,16 @@
                 },
                 "parameters": {
                   "location": {
-                    "value": "[[field('location')]"
+                    "value": "[field('location')]"
                   },
                   "sqlServerName": {
-                    "value": "[[first(split(field('fullname'),'/'))]"
+                    "value": "[first(split(field('fullname'),'/'))]"
                   },
                   "sqlServerDataBaseName": {
-                    "value": "[[field('name')]"
+                    "value": "[field('name')]"
                   },
                   "emailAddresses":{
-                    "value": "[[parameters('emailAddresses')]"
+                    "value": "[parameters('emailAddresses')]"
                   }
                 }
               }

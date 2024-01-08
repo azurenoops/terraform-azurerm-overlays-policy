@@ -9,11 +9,10 @@
             "version": "1.0.0",
             "category": "Automation",
             "source": "https://github.com/AzureNoOps/",
-"anoaCloudEnvironments": [
-          "AzureCloud",          
-          "AzureUSGovernment"
-        ]
-
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {
             "effect": {

@@ -61,7 +61,7 @@
                 ]
             },
             "then": {
-                "effect": "[[parameters('effect')]",
+                "effect": "[parameters('effect')]",
                 "details": {
                     "type": "Microsoft.Security/securityContacts",
                     "deploymentScope": "subscription",
@@ -73,11 +73,11 @@
                         "allOf": [
                             {
                                 "field": "Microsoft.Security/securityContacts/email",
-                                "contains": "[[parameters('emailSecurityContact')]"
+                                "contains": "[parameters('emailSecurityContact')]"
                             },
                             {
                                 "field": "Microsoft.Security/securityContacts/alertNotifications.minimalSeverity",
-                                "contains": "[[parameters('minimalSeverity')]"
+                                "contains": "[parameters('minimalSeverity')]"
                             },
                             {
                                 "field": "type",
@@ -99,10 +99,10 @@
                             "mode": "incremental",
                             "parameters": {
                                 "emailSecurityContact": {
-                                    "value": "[[parameters('emailSecurityContact')]"
+                                    "value": "[parameters('emailSecurityContact')]"
                                 },
                                 "minimalSeverity": {
-                                    "value": "[[parameters('minimalSeverity')]"
+                                    "value": "[parameters('minimalSeverity')]"
                                 }
                             },
                             "template": {
@@ -129,7 +129,7 @@
                                         "name": "default",
                                         "apiVersion": "2020-01-01-preview",
                                         "properties": {
-                                            "emails": "[[parameters('emailSecurityContact')]",
+                                            "emails": "[parameters('emailSecurityContact')]",
                                             "notificationsByRole": {
                                                 "state": "On",
                                                 "roles": [
@@ -138,7 +138,7 @@
                                             },
                                             "alertNotifications": {
                                                 "state": "On",
-                                                "minimalSeverity": "[[parameters('minimalSeverity')]"
+                                                "minimalSeverity": "[parameters('minimalSeverity')]"
                                             }
                                         }
                                     }
