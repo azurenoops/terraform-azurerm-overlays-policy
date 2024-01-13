@@ -20,6 +20,7 @@
         "parameters": {
             "emailSecurityContact": {
                 "type": "string",
+                "defaultValue": "anoa@contoso.com",
                 "metadata": {
                     "displayName": "Security contacts email address",
                     "description": "Provide email address for Azure Security Center contact details"

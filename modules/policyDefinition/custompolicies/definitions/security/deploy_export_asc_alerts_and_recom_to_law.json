@@ -38,10 +38,36 @@
             "resourceGroupLocation": {
                 "type": "String",
                 "allowedValues": [
+                    "eastus",
+                    "eastus2",
+                    "southcentralus",
+                    "westus2",
+                    "centralus",
+                    "westus",
+                    "westcentralus",
+                    "canadacentral",
+                    "canadaeast",
+                    "northeurope",
+                    "westeurope",
+                    "francecentral",
+                    "francesouth",                
                     "uksouth",
-                    "ukwest"
+                    "ukwest",
+                    "eastasia",
+                    "southeastasia",
+                    "japaneast",
+                    "japanwest",
+                    "usgovarizona",
+                    "usgoviowa",
+                    "usgovtexas",
+                    "usgovvirginia",
+                    "usdodeast",
+                    "usdodcentral",
+                    "usdodnorthcentral",
+                    "usdodsouthcentral",
+                    "usdodwestcentral"
                 ],
-                "defaultValue": "uksouth",
+                "defaultValue": "eastus",
                 "metadata": {
                     "displayName": "Resource group location",
                     "description": "The location where the resource group and the export to Log Analytics configuration are created.",
@@ -413,7 +439,7 @@
                                 "alertSeverities": {
                                     "value": "[parameters('alertSeverities')]"
                                 },
-                                "workspaceId": {
+                                "logAnalytics": {
                                     "value": "[parameters('logAnalytics')]"
                                 }
                             }
