@@ -2,8 +2,17 @@
     "type": "Microsoft.Authorization/policyDefinitions",
     "name": "deny_nic_public_ip",
     "properties": {
+        "mode": "Indexed",
+        "displayName": "Network interfaces should not have public IPs",
+        "description": "This policy denies the network interfaces which are configured with any public IP. Public IP addresses allow internet resources to communicate inbound to Azure resources, and Azure resources to communicate outbound to the internet. This should be reviewed by the network security team.",
         "metadata": {
-            "category": "Network"
+            "version": "1.0.0",
+            "category": "Network",
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {
             "effect": {
