@@ -1,0 +1,65 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "name": "audit_locks_on_networking",
+    "properties": {
+        "displayName": "Audit lock on Networking Resource Types",
+        "description": "This policy audits if a resource lock 'CanNotDelete' or 'ReadOnly' has been applied to the specified Networking components.",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "General",
+            "source": "https://github.com/AzureNoOps/",
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy"
+                },
+                "allowedValues": [
+                    "AuditIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "AuditIfNotExists"
+            },
+            "resourceTypes": {
+                "type": "Array",
+                "metadata": {
+                    "description": "Azure netowrking resource types to audit for Locks",
+                    "displayName": "resourceTypes"
+                },
+                "defaultValue": [
+                    "microsoft.network/expressroutecircuits",
+                    "microsoft.network/expressroutegateways",
+                    "microsoft.network/virtualnetworks",
+                    "microsoft.network/virtualnetworkgateways",
+                    "microsoft.network/vpngateways",
+                    "microsoft.network/p2svpngateways"
+                ]
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "in": "[parameters('resourceTypes')]"
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Authorization/locks",
+                    "existenceCondition": {
+                        "field": "Microsoft.Authorization/locks/level",
+                        "in": [
+                            "ReadOnly",
+                            "CanNotDelete"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

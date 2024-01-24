@@ -1,15 +1,15 @@
 {
-  "name": "deploy_diagnostics_virtualNetwork",
+  "name": "deploy_diagnostics_website",
   "type": "Microsoft.Authorization/policyDefinitions",
   "apiVersion": "2021-06-01",
   "scope": null,
   "properties": {
     "policyType": "Custom",
     "mode": "Indexed",
-    "displayName": "Deploy Diagnostic Settings for Virtual Network to Log Analytics workspace",
-    "description": "Deploys the diagnostic settings for Virtual Network to stream to a Log Analytics workspace when any Virtual Network which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
+    "displayName": "Deploy Diagnostic Settings for App Service Plan to Log Analytics workspace",
+    "description": "Deploys the diagnostic settings for App Service Plan to stream to a Log Analytics workspace when any App Service Plan which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
     "metadata": {
-      "version": "1.1.0",
+      "version": "1.2.0",
       "category": "Monitoring",
       "source": "https://github.com/AzureNoOps/",
       "anoaCloudEnvironments": [
@@ -24,18 +24,6 @@
           "displayName": "Log Analytics workspace",
           "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
           "strongType": "omsWorkspace"
-        }
-      },
-      "azureRegions": {
-        "type": "Array",
-        "defaultValue": [
-          "eastus",
-          "westus"
-        ],
-        "metadata": {
-          "displayName": "Allowed Locations",
-          "description": "The list of locations that can be specified when deploying resources",
-          "strongType": "location"
         }
       },
       "effect": {
@@ -69,32 +57,12 @@
           "displayName": "Enable metrics",
           "description": "Whether to enable metrics stream to the Log Analytics workspace - True or False"
         }
-      },
-      "logsEnabled": {
-        "type": "String",
-        "defaultValue": "True",
-        "allowedValues": [
-          "True",
-          "False"
-        ],
-        "metadata": {
-          "displayName": "Enable logs",
-          "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
-        }
       }
     },
     "policyRule": {
       "if": {
-        "allOf": [
-          {
-            "field": "type",
-            "equals": "Microsoft.Network/virtualNetworks"
-          },
-          {
-            "field": "location",
-            "in": "[parameters('AzureRegions')]"
-          }
-        ]
+        "field": "type",
+        "equals": "Microsoft.Web/serverfarms"
       },
       "then": {
         "effect": "[parameters('effect')]",
@@ -103,10 +71,6 @@
           "name": "[parameters('profileName')]",
           "existenceCondition": {
             "allOf": [
-              {
-                "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                "equals": "[parameters('logsEnabled')]"
-              },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
                 "equals": "[parameters('metricsEnabled')]"
@@ -142,15 +106,12 @@
                   },
                   "metricsEnabled": {
                     "type": "String"
-                  },
-                  "logsEnabled": {
-                    "type": "String"
                   }
                 },
                 "variables": {},
                 "resources": [
                   {
-                    "type": "Microsoft.Network/virtualNetworks/providers/diagnosticSettings",
+                    "type": "Microsoft.Web/sites/providers/diagnosticSettings",
                     "apiVersion": "2017-05-01-preview",
                     "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                     "location": "[parameters('location')]",
@@ -162,26 +123,16 @@
                           "category": "AllMetrics",
                           "enabled": "[parameters('metricsEnabled')]",
                           "retentionPolicy": {
-                            "enabled": false,
-                            "days": 0
+                            "days": 0,
+                            "enabled": false
                           }
                         }
                       ],
-                      "logs": [
-                        {
-                          "category": "VMProtectionAlerts",
-                          "enabled": "[parameters('logsEnabled')]"
-                        }
-                      ]
+                      "logs": []
                     }
                   }
                 ],
-                "outputs": {
-                  "policy": {
-                    "type": "string",
-                    "value": "[concat(parameters('logAnalytics'), 'configured for diagnostic logs for ', ': ', parameters('name'))]"
-                  }
-                }
+                "outputs": {}
               },
               "parameters": {
                 "logAnalytics": {
@@ -198,9 +149,6 @@
                 },
                 "metricsEnabled": {
                   "value": "[parameters('metricsEnabled')]"
-                },
-                "logsEnabled": {
-                  "value": "[parameters('logsEnabled')]"
                 }
               }
             }

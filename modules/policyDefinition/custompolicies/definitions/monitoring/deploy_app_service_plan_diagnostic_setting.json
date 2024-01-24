@@ -1,21 +1,21 @@
 {
-    "name": "deploy_diagnostics_VM",
+    "name": "deploy_diagnostics_app_service_plan",
     "type": "Microsoft.Authorization/policyDefinitions",
     "apiVersion": "2021-06-01",
     "scope": null,
     "properties": {
       "policyType": "Custom",
       "mode": "Indexed",
-      "displayName": "Deploy Diagnostic Settings for Virtual Machines to Log Analytics workspace",
-      "description": "Deploys the diagnostic settings for Virtual Machines to stream to a Log Analytics workspace when any Virtual Machines which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
+      "displayName": "Deploy Diagnostic Settings for App Service Plan to Log Analytics workspace",
+      "description": "Deploys the diagnostic settings for App Service Plan to stream to a Log Analytics workspace when any App Service Plan which is missing this diagnostic settings is created or updated. The policy wil set the diagnostic with all metrics and category enabled.",
       "metadata": {
         "version": "1.1.0",
         "category": "Monitoring",
         "source": "https://github.com/AzureNoOps/",
-        "anoaCloudEnvironments": [
-            "AzureCloud",
+          "anoaCloudEnvironments": [
+            "AzureCloud",          
             "AzureUSGovernment"
-        ]
+          ]
       },
       "parameters": {
         "logAnalytics": {
@@ -62,18 +62,18 @@
       "policyRule": {
         "if": {
           "field": "type",
-          "equals": "Microsoft.Compute/virtualMachines"
+          "equals": "Microsoft.Web/serverfarms"
         },
         "then": {
           "effect": "[parameters('effect')]",
           "details": {
             "type": "Microsoft.Insights/diagnosticSettings",
-            "name": "[parameters('profileName')]",
+            "name": "[parameters('profileName')]",            
             "existenceCondition": {
               "allOf": [
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                  "equals": "[parameters('metricsEnabled')]"
+                  "equals": "true"
                 },
                 {
                   "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
@@ -111,7 +111,7 @@
                   "variables": {},
                   "resources": [
                     {
-                      "type": "Microsoft.Compute/virtualMachines/providers/diagnosticSettings",
+                      "type": "Microsoft.Web/serverfarms/providers/diagnosticSettings",
                       "apiVersion": "2017-05-01-preview",
                       "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('profileName'))]",
                       "location": "[parameters('location')]",
@@ -123,8 +123,8 @@
                             "category": "AllMetrics",
                             "enabled": "[parameters('metricsEnabled')]",
                             "retentionPolicy": {
-                              "enabled": false,
-                              "days": 0
+                              "days": 0,
+                              "enabled": false
                             }
                           }
                         ],

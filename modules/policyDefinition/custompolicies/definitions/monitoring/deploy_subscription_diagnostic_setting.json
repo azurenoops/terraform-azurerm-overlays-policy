@@ -1,127 +1,125 @@
 {
     "type": "Microsoft.Authorization/policyDefinitions",
-    "name": "deploy_subscription_diagnostic_setting",
+    "name": "audit_subscription_diagnostic_setting_should_exist",
     "properties": {
         "displayName": "Deploy Diagnostic Settings for Subscriptions to a Log Analytics workspace",
-        "description": "Deploys the diagnostic settings for Subscriptions to stream to a regional Log Analytics workspace when any Subscription which is missing this diagnostic settings is created or updated.",
+        "description": "Deploys the diagnostic settings for Subscriptions to stream to a Log Analytics workspace when any Subscription which is missing this diagnostic settings is created or updated. The Policy will set the diagnostic with all metrics and category enabled",
         "metadata": {
             "version": "1.0.0",
             "category": "Monitoring",
             "source": "https://github.com/AzureNoOps/",
-"anoaCloudEnvironments": [
-          "AzureCloud",          
-          "AzureUSGovernment"
-        ]
-
+            "anoaCloudEnvironments": [
+                "AzureCloud",
+                "AzureUSGovernment"
+            ]
         },
         "parameters": {
             "effect": {
                 "type": "String",
-                "defaultValue": "DeployIfNotExists",
                 "metadata": {
                     "displayName": "Effect",
                     "description": "Enable or disable the execution of the policy"
                 },
                 "allowedValues": [
                     "DeployIfNotExists",
-                    "AuditIfNotExists",
                     "Disabled"
-                ]
+                ],
+                "defaultValue": "DeployIfNotExists"
             },
             "profileName": {
                 "type": "String",
-                "defaultValue": "setbypolicy_Diagnostics",
+                "defaultVaule": "setbypolicy",
                 "metadata": {
-                    "displayName": "Profile name",
-                    "description": "The diagnostic settings profile name"
+                    "displayName": "Profile Name for Config",
+                    "description": "The profile name Azure Diagnostics"
                 }
             },
-            "location": {
-                "type": "String"
-            },
-            "workspaceId": {
-                "type": "String",
+            "logAnalytics": {
+                "type": "string",
                 "metadata": {
-                    "displayName": "Log Analytics workspace Id",
-                    "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
-                    "assignPermissions": true
-                }
-            },
-            "storageAccountId": {
-                "type": "String",
-                "metadata": {
-                    "displayName": "Storage Account Id",
-                    "description": "The Storage Account Resource Id to send activity logs",
-                    "assignPermissions": true
+                    "displayName": "logAnalytics",
+                    "description": "The target Log Analytics Workspace for Azure Diagnostics",
+                    "strongType": "omsWorkspace"
                 }
             },
             "logsEnabled": {
                 "type": "String",
-                "metadata": {
-                    "displayName": "Enable Logs",
-                    "description": "Enable Logs - True or False"
-                },
+                "defaultValue": "True",
                 "allowedValues": [
                     "True",
                     "False"
                 ],
-                "defaultValue": "True"
+                "metadata": {
+                    "displayName": "Enable logs",
+                    "description": "Whether to enable logs stream to the Log Analytics workspace - True or False"
+                }
+            },
+            "location": {
+                "type": "string",
+                "defaultValue": "canadacentral",
+                "metadata": {
+                    "displayName": "Region",
+                    "description": "Azure region that will be used for policy remediation"
+                }
             }
         },
         "policyRule": {
             "if": {
-                "field": "type",
-                "equals": "Microsoft.Resources/subscriptions"
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Resources/subscriptions"
+                    }
+                ]
             },
             "then": {
                 "effect": "[parameters('effect')]",
                 "details": {
-                    "type": "microsoft.insights/diagnosticSettings",
+                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "deploymentScope": "Subscription",
+                    "existenceScope": "Subscription",
                     "existenceCondition": {
                         "allOf": [
                             {
                                 "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
                                 "equals": "[parameters('logsEnabled')]"
+                            },
+                            {
+                                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                                "equals": "[parameters('logAnalytics')]"
                             }
                         ]
                     },
-                    "roleDefinitionIds": [
-                        "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
-                        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
-                        "/providers/microsoft.authorization/roleDefinitions/c12c1c16-33a1-487b-954d-41c89c60f349"
-                    ],
                     "deployment": {
+                        "location": "eastus",
                         "properties": {
-                            "mode": "incremental",
+                            "mode": "Incremental",
                             "template": {
                                 "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
                                 "contentVersion": "1.0.0.0",
                                 "parameters": {
-                                    "profileName": {
-                                        "type": "String"
-                                    },
-                                    "location": {
-                                        "type": "String"
-                                    },
-                                    "workspaceId": {
-                                        "type": "String"
-                                    },
-                                    "storageAccountId": {
+                                    "logAnalytics": {
                                         "type": "String"
                                     },
                                     "logsEnabled": {
                                         "type": "String"
+                                    },
+                                    "profileName": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
                                     }
                                 },
                                 "variables": {},
                                 "resources": [
                                     {
-                                        "type": "microsoft.insights/diagnosticSettings",
-                                        "apiVersion": "2017-05-01-preview",
                                         "name": "[parameters('profileName')]",
+                                        "type": "Microsoft.Insights/diagnosticSettings",
+                                        "apiVersion": "2017-05-01-preview",
+                                        "location": "[parameters('location')]",
                                         "properties": {
-                                            "workspaceId": "[parameters('workspaceId')]",
-                                            "storageAccountId": "[parameters('storageAccountId')]",
+                                            "workspaceId": "[parameters('logAnalytics')]",
                                             "logs": [
                                                 {
                                                     "category": "Administrative",
@@ -162,23 +160,25 @@
                                 "outputs": {}
                             },
                             "parameters": {
-                                "profileName": {
-                                    "value": "[parameters('profileName')]"
-                                },
-                                "workspaceId": {
-                                    "value": "[parameters('workspaceId')]"
-                                },
-                                "storageAccountId": {
-                                    "Value": "[parameters('storageAccountId')]"
+                                "logAnalytics": {
+                                    "value": "[parameters('logAnalytics')]"
                                 },
                                 "logsEnabled": {
                                     "value": "[parameters('logsEnabled')]"
+                                },
+                                "profileName": {
+                                    "value": "[parameters('profileName')]"
+                                },
+                                "location": {
+                                    "value": "[parameters('location')]"
                                 }
                             }
-                        },
-                        "location": "[parameters('location')]"
+                        }
                     },
-                    "deploymentScope": "subscription"
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+                        "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+                    ]
                 }
             }
         }

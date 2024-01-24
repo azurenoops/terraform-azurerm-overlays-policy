@@ -85,11 +85,11 @@
             "allOf": [
               {
                 "field": "Microsoft.Insights/diagnosticSettings/logs.enabled",
-                "equals": "true"
+                "equals": "[parameters('logsEnabled')]"
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/metrics.enabled",
-                "equals": "true"
+                "equals": "[parameters('metricsEnabled')]"
               },
               {
                 "field": "Microsoft.Insights/diagnosticSettings/workspaceId",

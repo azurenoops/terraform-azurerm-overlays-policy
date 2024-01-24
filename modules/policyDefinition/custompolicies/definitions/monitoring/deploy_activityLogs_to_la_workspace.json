@@ -76,7 +76,7 @@
                         ]
                     },
                     "deployment": {
-                        "location": "chinaeast2",
+                        "location": "northeurope",
                         "properties": {
                             "mode": "incremental",
                             "template": {
