@@ -4,3 +4,16 @@ updates:
     directory: "/test"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    assignees:
+      - "code-reviewers" 
+  - package-ecosystem: "terraform"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "code-reviewers" 
