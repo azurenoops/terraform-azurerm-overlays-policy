@@ -73,7 +73,7 @@
                         "equals": "microsoft.keyvault/vaults"
                     },
                     {
-                        "field": "[[concat('tags[', parameters('MonitorDisable'), ']')]",
+                        "field": "[concat('tags[', parameters('MonitorDisable'), ']')]",
                         "notEquals": "true"
                     }
                 ]
